@@ -667,7 +667,7 @@ flowchart LR
 | **`requirements.txt`** | Must include `streamlit`, `pandas`, `fastapi` deps used by pipeline |
 | **`.streamlit/config.toml`** (optional) | Theme, server headless defaults for cloud |
 | **Secrets / env** | `LLM_API_KEY`, `LLM_PROVIDER`, `PROCESSED_DATA_PATH`, budget/shortlist vars |
-| **Repository layout** | App path declared in Streamlit Cloud: `src/presentation/web_ui.py` |
+| **Repository layout** | Streamlit Cloud main file: `streamlit_app.py` (root); UI in `src/presentation/web_ui.py` |
 
 #### Recommended free hosting
 
@@ -680,7 +680,7 @@ flowchart LR
 #### Configuration (Streamlit Cloud)
 
 1. Push project to a **public** GitHub repo (or use Streamlit Teams for private).
-2. **App path:** `src/presentation/web_ui.py`
+2. **Main file path:** `streamlit_app.py` (at repository root)
 3. **Python version:** 3.10+ (match local venv).
 4. **Secrets** (Streamlit Cloud → Settings → Secrets), mirroring `.env`:
 
@@ -712,7 +712,7 @@ streamlit run src/presentation/web_ui.py
 1. Ensure `streamlit` is listed in `requirements.txt`.
 2. Add `.streamlit/config.toml` if custom theme or `headless = true` is needed.
 3. Connect repo on [share.streamlit.io](https://share.streamlit.io).
-4. Set main file to `src/presentation/web_ui.py`.
+4. Set main file to `streamlit_app.py`.
 5. Add secrets; redeploy.
 6. Share the generated `*.streamlit.app` URL.
 

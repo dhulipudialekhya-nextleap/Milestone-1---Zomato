@@ -92,8 +92,11 @@ Open [http://localhost:3000](http://localhost:3000), enter preferences, and clic
 ### Run the Streamlit UI (legacy)
 
 ```bash
-streamlit run src/presentation/web_ui.py
+streamlit run streamlit_app.py
 ```
+
+**Streamlit Community Cloud:** set **Main file path** to `streamlit_app.py` (repo root).  
+Implementation lives in `src/presentation/web_ui.py`.
 
 ### Run via CLI (dev / testing only)
 
