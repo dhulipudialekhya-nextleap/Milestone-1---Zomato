@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  color: #191c1d;
+  background: #f8f9fa;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hero-gradient {
+  background: radial-gradient(
+    circle at top right,
+    rgba(193, 31, 46, 0.05) 0%,
+    transparent 40%
+  );
+}
+
+.input-surface {
+  background-color: #fff5f5;
+}
+
+.select-field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%235b403f'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 2.5rem;
+}
+
+.active-ring:focus {
+  border-color: #c11f2e !important;
+  box-shadow: 0 0 0 2px rgba(193, 31, 46, 0.2);
+}
+
+input[type="range"] {
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #c11f2e 0%,
+    #c11f2e var(--range-progress, 50%),
+    #edf0f2 var(--range-progress, 50%),
+    #edf0f2 100%
+  );
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: #c11f2e;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e1e3e4;
+  border-radius: 10px;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

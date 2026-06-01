@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DineAI - Personalized Culinary Exploration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8f6f6e",
+                        "on-background": "#191c1d",
+                        "primary": "#b7122a",
+                        "outline-variant": "#e4bebc",
+                        "secondary": "#5a5d70",
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-primary": "#ffb3b1",
+                        "on-secondary-fixed": "#171b2b",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-surface": "#191c1d",
+                        "tertiary": "#795600",
+                        "surface-bright": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary-container": "#fffbff",
+                        "secondary-fixed": "#dee1f8",
+                        "on-tertiary-fixed-variant": "#5e4200",
+                        "surface-container": "#edeeef",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#424658",
+                        "surface-tint": "#bb162c",
+                        "on-secondary-container": "#606376",
+                        "surface-dim": "#d9dadb",
+                        "tertiary-fixed-dim": "#ffba20",
+                        "surface": "#f8f9fa",
+                        "tertiary-container": "#986d00",
+                        "primary-fixed": "#ffdad8",
+                        "primary-fixed-dim": "#ffb3b1",
+                        "on-primary-fixed-variant": "#92001c",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#db313f",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c2c5db",
+                        "tertiary-fixed": "#ffdea8",
+                        "background": "#f8f9fa",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "on-surface-variant": "#5b403f",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed": "#271900",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary-fixed": "#410007",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#dee1f8",
+                        "brand-coral": "#E23744",
+                        "brand-neutral": "#F8F9FA",
+                        "brand-border": "#EDF0F2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap-sm": "8px",
+                        "container-padding-mobile": "16px",
+                        "stack-gap-md": "16px",
+                        "container-padding-desktop": "48px",
+                        "unit": "4px",
+                        "stack-gap-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #F8F9FA; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .active-ring { border: 2px solid #E23744 !important; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e1e3e4; border-radius: 10px; }
+        .hero-gradient { background: radial-gradient(circle at top right, rgba(226, 55, 68, 0.05) 0%, transparent 40%); }
+    </style>
+</head>
+<body class="text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline shadow-sm">
+<div class="flex justify-between items-center w-full px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="restaurant">restaurant</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">DineAI</h1>
+</div>
+<nav class="flex items-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dining Out</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Delivery</a>
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed font-bold hover:opacity-90 transition-opacity" href="#">Profile</a>
+</nav>
+</div>
+</header>
+<main class="pt-24 pb-16 min-h-screen hero-gradient">
+<div class="max-w-7xl mx-auto px-container-padding-desktop flex flex-col gap-stack-gap-lg">
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left & Center Content: Preference Form -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-stack-gap-lg">
+<div class="flex flex-col gap-2">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Find your perfect meal using DineAI</h2>
+<p class="text-on-surface-variant font-body-lg max-w-2xl">Tell us your preferences and our AI concierge will curate a list of restaurants tailored specifically to your taste and current location.</p>
+</div>
+<!-- Preference Card -->
+<div class="bg-white rounded-2xl shadow-sm border border-brand-border p-8 transition-all hover:shadow-md">
+<form class="grid grid-cols-1 md:grid-cols-2 gap-stack-gap-lg" onsubmit="event.preventDefault();">
+<!-- Location Section -->
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Location</label>
+<select class="w-full px-4 py-3 rounded-xl border border-brand-border focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none transition-all font-body-md bg-[#FFF5F5]">
+<option value="Mumbai, MH">Mumbai, MH</option>
+<option value="Delhi, DL">Delhi, DL</option>
+<option value="Bangalore, KA">Bangalore, KA</option>
+<option value="Hyderabad, TS">Hyderabad, TS</option>
+</select>
+</div>
+<!-- Cuisine Section -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Cuisine Style</label>
+<select class="w-full px-4 py-3 rounded-xl border border-brand-border focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none transition-all font-body-md bg-[#FFF5F5]">
+<option>Any Cuisine</option>
+<option>Modern Japanese</option>
+<option>Authentic Italian</option>
+<option>Spicy Sichuan</option>
+<option>Farm-to-Table French</option>
+<option>Plant-Based Contemporary</option>
+</select>
+</div>
+<!-- Budget Section -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Budget Range (INR)</label>
+<select class="w-full px-4 py-3 rounded-xl border border-brand-border focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none transition-all font-body-md bg-[#FFF5F5]">
+<option value="0-500">0-500</option>
+<option value="500-1000">500-1000</option>
+<option selected="" value="1000-2000">1000-2000</option>
+<option value="2000-5000">2000-5000</option>
+<option value="5000+">5000+</option>
+</select>
+</div>
+<!-- Rating Section -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Minimum Rating</label>
+<div class="flex items-center gap-4 py-2">
+<input class="w-full h-2 bg-brand-border rounded-lg appearance-none cursor-pointer accent-primary" max="5" min="3" step="0.5" style="background: linear-gradient(to right, #e23744 0%, #e23744 50%, #EDF0F2 50%, #EDF0F2 100%);" type="range" value="4"/>
+<span class="font-label-md text-label-md text-primary font-bold min-w-[3ch]">4.0+</span>
+</div>
+</div>
+<!-- Specific Cravings Section -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Specific Cravings</label>
+<select class="w-full px-4 py-3 rounded-xl border border-brand-border focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none transition-all font-body-md bg-[#FFF5F5]">
+<option value="">Anything delicious</option>
+<option value="Biryani">Biryani</option>
+<option value="Cakes">Cakes</option>
+<option value="Indian Breads">Indian Breads</option>
+<option value="Pizza">Pizza</option>
+<option value="Sushi">Sushi</option>
+<option value="Pasta">Pasta</option>
+</select>
+</div>
+<!-- CTA Button -->
+<div class="md:col-span-2 mt-4">
+<button class="w-full md:w-auto px-12 py-4 rounded-xl bg-primary text-white font-headline-md text-headline-md shadow-md hover:bg-opacity-90 active:scale-95 transition-all flex items-center justify-center gap-3" type="submit">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+                                Get Recommendations
+                            </button>
+</div>
+</form>
+</div><div class="mt-8 flex flex-col gap-4">
+<h5 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest px-2">FILTERS</h5>
+<div class="flex gap-3 items-center w-full custom-scrollbar flex-wrap">
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex-shrink-0">Veg</button>
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex-shrink-0">Non-Veg</button>
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex-shrink-0">New to You</button>
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex-shrink-0">Great Offers</button>
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex-shrink-0">Previously Ordered</button>
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex-shrink-0">No Packaging Charges</button><div class="relative group flex-shrink-0">
+<button class="px-6 py-2 rounded-full border border-brand-border bg-white text-on-surface font-body-md hover:border-brand-coral hover:text-brand-coral transition-colors flex items-center gap-2">
+        Sort by
+        <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<div class="absolute top-full left-0 mt-2 w-56 bg-white border border-brand-border rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10 py-2">
+<button class="w-full text-left px-4 py-2 hover:bg-surface-container font-label-md text-on-surface">Distance: Low to High</button>
+<button class="w-full text-left px-4 py-2 hover:bg-surface-container font-label-md text-on-surface">Rating: Low to High</button>
+<button class="w-full text-left px-4 py-2 hover:bg-surface-container font-label-md text-on-surface">Delivery Time: Low to High</button>
+<button class="w-full text-left px-4 py-2 hover:bg-surface-container font-label-md text-on-surface">Price Range: Low to High</button>
+</div>
+</div></div>
+</div>
+</div>
+<!-- Right Sidebar -->
+<aside class="col-span-12 lg:col-span-4 flex flex-col gap-stack-gap-lg">
+<!-- Popular Searches -->
+<div class="flex flex-col gap-stack-gap-sm">
+<h5 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest px-2">Popular Searches</h5>
+<div class="flex flex-col gap-4 px-2">
+<select class="w-full px-4 py-2 rounded-xl border border-brand-border focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none transition-all font-body-md bg-[#FFF5F5]">
+<option>Ice Cream</option>
+<option>Sweets</option>
+<option>Desserts</option>
+<option>Juices</option>
+<option>Cakes</option>
+<option>Waffles</option>
+</select>
+<div class="grid grid-cols-2 gap-3"><!-- 2x2 Grid for first 4 items -->
+<div class="flex flex-col gap-1.5">
+<div class="aspect-square rounded-lg overflow-hidden">
+<img alt="Ice Cream" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChr2dmw-LKCY5VWZxhjBYKPR3R19QMewquvNTgn_x-tzf97gs2RBpx3XpvLk5_c2-rmeHP3ulv5pEhx2C2_IraJYZufXg9CTBvcNZg-Cfwu7i4go18Cg69E6htzUBdscgs8bMZbUxKcgUSm_UBjiEWW9kz0jlHEAajUWMeGZHtEk9ynzje19ixyQSgtiv0eQOTnPw4HZE-tkU-pNZ3Uaxs0RAIoddm0qq0uX82xyZDFvQ3YIFChZcNHA672CW0GuLTsAqc6c4r7HM"/>
+</div>
+<span class="text-[10px] uppercase tracking-tighter font-bold text-on-surface-variant text-center">Ice Cream</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="aspect-square rounded-lg overflow-hidden">
+<img alt="Sweets" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMwxYw8tpYRbwFRnKzfY5EQbBdZlSH9ZgGmSslNc2ZC1RoFPZBZp1oY67ZCFdYZ7lu28WzVJNHfliEyul9ybPfChUPd0FuCwjLcTTcAlf-6gCpFC7172hzyxNlxB66Me3aDrEBbXkpd8DO_u8M7wYLF9YBpwa0FoSou4ZX0XL-P0PI1eYqZBr5XVLtx8kNkaoa5dsbc_ZFN1H0SfZfut64pNi13A0WfB99nqJgpRL6tzwIwXsHf8K4v_Obnb7rZ7KsQOweg0Qox8s"/>
+</div>
+<span class="text-[10px] uppercase tracking-tighter font-bold text-on-surface-variant text-center">Sweets</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="aspect-square rounded-lg overflow-hidden">
+<img alt="Juices" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8xhprjkNS6Du8NhVtqYN5aI6dXLd7nydf6Hfsg6SH5Fz2iRjNrE-JT0A3ehDOIUXlarmhgzIJeSJ2v-fhDGBASTFUqOkKPPOcgHY0wP5YBUiicVJ-sBL26qk3AOUbZGeA6uqJf0TCvw3SaP9xPkFitVCC9D8fmLSd6OYdThgG8LO98swJdNKlhK3o17THmZwZIbQMVjsrLfZUbKX9T85GanoSV9DkfYeM23ttItIXK3elvs5R5aBtVDPCYhMuW6E1CLtD7rna9j0"/>
+</div>
+<span class="text-[10px] uppercase tracking-tighter font-bold text-on-surface-variant text-center">Juices</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="aspect-square rounded-lg overflow-hidden">
+<img alt="Waffles" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvwsV4_3PbO3L_K_tZL14FdjMvIVXK5PaQAVACoDP7umcj1fLy-05hA4WspThMhcbi48va9-7y7HAa9lvBA-eoeUZi7jIM4fsBwwEKxQBzn64ho3ipfDVE8hKsJLqkla_cPEGZrPp-lAUhBuDI_8y44BT5GP-hYzF49BRdaZc4CHRCyG0537fVEFbhlDeKywRFvMCLAKB8n6Vev94gVaQt998qh9O-w_FXvHD0C_h3Kgp0cqTlB_GTb3r8ePL-BMePeccu89dH-F0"/>
+</div>
+<span class="text-[10px] uppercase tracking-tighter font-bold text-on-surface-variant text-center">Waffles</span>
+</div>
+<!-- Centered Cake Item on its own row -->
+<div class="col-span-2 flex flex-col gap-1.5">
+<div class="aspect-video rounded-lg overflow-hidden">
+<img alt="Cakes" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ugsDo9QCgjwJvymuql8g_UJsJMtAsJHBEGVK1qCzNRb2N5KyF4RcMnseU5FtOQd6421oqaRNXiTkjrqT4D987owjuV7tIOxUTbBFMVNjJ9xMnC0-mmKDprlBqmDOsG4uT5k7tPRK7-7z9w6B-wt8Q9AE59oZYZPN0ALQt1BNje_yO21CqkvkJ2F6oxws6YOEirHjOYWSNz3c6XfnhEvR1t5P-NLjK5TAoZOtVbChLTnPSAN_67a2As25jI"/>
+</div>
+<span class="text-[10px] uppercase tracking-tighter font-bold text-on-surface-variant text-center">Cakes</span>
+</div></div>
+</div>
+</div>
+<!-- Sidebar Filters Update -->
+</aside>
+</div>
+<!-- Personalized Picks Section -->
+<section class="mt-8">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Personalized Picks for You</h2>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-brand-border flex items-center justify-center hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-brand-border flex items-center justify-center hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Food Card 1 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square overflow-hidden">
+<img alt="Butter Chicken" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAswIeEiifJWA0-o6hCQuoPc-SepH8hLb--gXLtmtMcHZfPCusevZujyrmGbK9KfCM_WDTP0c4OHv_88cLJikhpyl7Fvmc4MycE9VSoM6scFplG2SP7wyoAFTgpO1Oy3eruI-h7kZqF8euA2evAt0LhZvm9cd89YfvoVluwJmTjIUnvdFoKgFCyfP1Q7CoA6pNpiUybohkGSfGKgpS7L_tlddFRcbpb8J5oY4R6EHmIacsmcI5Y2QGyaq6Cl6W7QNS4EOmw8LItnoc"/>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-label-md text-on-surface font-bold">Butter Chicken</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px] fill-1" data-icon="star">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.8</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-label-sm">The Great Kebab Factory</p>
+</div>
+</div>
+<!-- Food Card 2 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square overflow-hidden">
+<img alt="Masala Dosa" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC496aq1oSBMCWR5Ft95UBiRPjkaayF0mu-ePoZs37TkWca8sPA9nwYkg7c5Ezpz6gsHP78c_qEAw6FYUImeVhcd_SLRTnZR-4ivqM6NWeOAVafDicD9a30dGv8qUZiqwqLDdEEAvBiJqfNe7--h82x7WyHB-CJNwTdp3pgH4WqPdpnCSM8BxngaVjZh5w_jZ6oV5856toDhQhQZ7S_3sXcBDNbnJvdA8s4I31j_vhOC_xycQO9Om2cdljWm19CDTlt2tNnLgJsEFg"/>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-label-md text-on-surface font-bold">Masala Dosa</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px] fill-1" data-icon="star">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.6</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-label-sm">Saravana Bhavan</p>
+</div>
+</div>
+<!-- Food Card 3 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square overflow-hidden">
+<img alt="Mutton Biryani" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAKY5nbpe6nTIUhiUTh1rM_oaxbI6I38Lg73QP1eU608unfWwgvxZ0iqzL-sHUrViwl3TVbKj1oe81O_mBQ0ryQpBzrxSGZjfRyO8OSs2wDXZYS7pTSZU9aGMUXkjHg2OqvwYMI1QYd3bfo6H23s-zzJHq9pKCqg1N98wCARkC5RgjMN5QrUVLspJt1PPDfPfehv7SyMdzfhcc63YJ8Wp6xbUSSKBuA-a5v5eejZ3WDC_gXd9i3F1BAPioT6XAiYH4SeNpDuy65L8"/>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-label-md text-on-surface font-bold">Mutton Biryani</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px] fill-1" data-icon="star">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.9</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-label-sm">Paradise Biryani</p>
+</div>
+</div>
+<!-- Food Card 4 -->
+<div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square overflow-hidden">
+<img alt="Paneer Tikka" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCISoDgDlnJu0wFPwEAE_84A_83eDWykmyIfTAyNzfRlWgTGfg2_G305j1KGXU5Iw3P7P2U5cf13rYmRGTCahBWesfMlPzZ_hsc6Bf5I0oBK_iZ5Lu3pBJjXpnpb8XaleV8a62qfwHuoYm9kKIZ28CoO8Uzf_TUmrnlHths9SyiWBWEWBmQ6eSviuWAXo7sMEAD2H3RmWMMZH2bHxwfMTSio9tEwICorF9RRfJGbKMMX6BmR0WLQlY61VQEvuHMI9gM7Fki_7_oAeY"/>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-label-md text-on-surface font-bold">Paneer Tikka</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px] fill-1" data-icon="star">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.7</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-label-sm">Punjab Grill</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<footer class="bg-surface-container-lowest border-t border-brand-border py-12">
+<div class="max-w-7xl mx-auto px-container-padding-desktop flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="restaurant">restaurant</span>
+<span class="font-headline-md text-headline-md font-bold text-secondary">DineAI</span>
+</div>
+<div class="flex gap-8 text-on-surface-variant font-label-md text-label-md">
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+<a class="hover:text-primary transition-colors" href="#">Partners</a>
+</div>
+<!-- Copyright Updated to 2026 -->
+<p class="text-on-surface-variant text-label-sm">© 2026 DineAI Culinary Concierge. All rights reserved.</p>
+</div>
+</footer>
+<script>
+    // Micro-interactions for form inputs
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+        el.addEventListener('focus', () => {
+            if (el.parentElement.classList.contains('relative') || el.classList.contains('rounded-xl')) {
+                el.classList.add('active-ring');
+            }
+        });
+        el.addEventListener('blur', () => {
+            el.classList.remove('active-ring');
+        });
+    });
+</script>
+</body></html>

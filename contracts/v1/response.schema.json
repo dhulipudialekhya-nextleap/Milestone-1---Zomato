@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "BackendErrorResponse": {
+      "description": "User-safe backend error response.",
+      "properties": {
+        "ok": {
+          "const": false,
+          "default": false,
+          "title": "Ok",
+          "type": "boolean"
+        },
+        "error_code": {
+          "enum": [
+            "validation_error",
+            "config_error",
+            "runtime_error"
+          ],
+          "title": "Error Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error_code",
+        "message"
+      ],
+      "title": "BackendErrorResponse",
+      "type": "object"
+    },
+    "BackendSuccessResponse": {
+      "description": "Successful backend response.",
+      "properties": {
+        "ok": {
+          "const": true,
+          "default": true,
+          "title": "Ok",
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/$defs/RecommendationResult"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "title": "BackendSuccessResponse",
+      "type": "object"
+    },
+    "RecommendationItem": {
+      "description": "A single ranked recommendation with AI explanation.",
+      "properties": {
+        "rank": {
+          "minimum": 1,
+          "title": "Rank",
+          "type": "integer"
+        },
+        "restaurant_id": {
+          "title": "Restaurant Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "cuisines": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Cuisines",
+          "type": "array"
+        },
+        "rating": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rating"
+        },
+        "average_cost": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Average Cost"
+        },
+        "cost_band": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Band"
+        }
+      },
+      "required": [
+        "rank",
+        "restaurant_id",
+        "name",
+        "explanation"
+      ],
+      "title": "RecommendationItem",
+      "type": "object"
+    },
+    "RecommendationResult": {
+      "description": "Full recommendation response from the pipeline.",
+      "properties": {
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        },
+        "recommendations": {
+          "items": {
+            "$ref": "#/$defs/RecommendationItem"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        },
+        "used_llm_fallback": {
+          "default": false,
+          "title": "Used Llm Fallback",
+          "type": "boolean"
+        },
+        "filter_match_count": {
+          "default": 0,
+          "title": "Filter Match Count",
+          "type": "integer"
+        }
+      },
+      "title": "RecommendationResult",
+      "type": "object"
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/$defs/BackendSuccessResponse"
+    },
+    {
+      "$ref": "#/$defs/BackendErrorResponse"
+    }
+  ]
+}

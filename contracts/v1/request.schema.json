@@ -1,0 +1,54 @@
+{
+  "description": "POST /api/recommendations body \u2014 preferences plus optional dev toggle.",
+  "properties": {
+    "location": {
+      "title": "Location",
+      "type": "string"
+    },
+    "budget": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Budget",
+      "type": "string"
+    },
+    "cuisine": {
+      "title": "Cuisine",
+      "type": "string"
+    },
+    "min_rating": {
+      "default": 0.0,
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "title": "Min Rating",
+      "type": "number"
+    },
+    "extras": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Extras"
+    },
+    "use_mock_data": {
+      "default": false,
+      "description": "When true, use in-memory mock restaurants instead of processed data.",
+      "title": "Use Mock Data",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "location",
+    "budget",
+    "cuisine"
+  ],
+  "title": "ApiRecommendationsRequest",
+  "type": "object"
+}

@@ -1,0 +1,35 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Data (processed artifacts — regenerate locally)
+data/processed/
+*.parquet
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Node / Next.js frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local

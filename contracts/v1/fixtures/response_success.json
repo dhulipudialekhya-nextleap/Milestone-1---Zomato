@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "result": {
+    "summary": "Curated Italian picks in Koramangala.",
+    "recommendations": [
+      {
+        "rank": 1,
+        "restaurant_id": "mock-1",
+        "name": "Pasta Palace",
+        "explanation": "Highly rated Italian with cozy ambiance.",
+        "cuisines": ["Italian"],
+        "rating": 4.5,
+        "average_cost": 800,
+        "cost_band": "medium"
+      }
+    ],
+    "used_llm_fallback": false,
+    "filter_match_count": 12
+  }
+}

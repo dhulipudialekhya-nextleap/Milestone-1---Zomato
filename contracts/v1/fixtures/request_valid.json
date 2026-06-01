@@ -1,0 +1,8 @@
+{
+  "location": "Koramangala",
+  "budget": "medium",
+  "cuisine": "Italian",
+  "min_rating": 4.0,
+  "extras": null,
+  "use_mock_data": true
+}
