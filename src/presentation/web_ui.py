@@ -34,14 +34,52 @@ def _option_index(options: tuple[str, ...], value: str, *, fallback: int = 0) ->
         return fallback
 
 
+def _inject_ui_styles() -> None:
+    """Apply lightweight visual polish for Streamlit Cloud."""
+    st.markdown(
+        """
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+        html, body, [class*="css"]  {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .app-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: #fff1f2;
+            color: #be123c;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.65rem;
+        }
+
+        .app-subtitle {
+            color: #475569;
+            margin-bottom: 0.25rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 st.set_page_config(
     page_title="Zomato AI Recommendations",
     page_icon="🍽️",
     layout="centered",
 )
 
-st.title("🍽️ Restaurant Recommendations")
-st.caption("AI-powered suggestions inspired by Zomato — Bangalore areas & cuisine filters")
+_inject_ui_styles()
+st.markdown('<span class="app-badge">DineAI • Streamlit</span>', unsafe_allow_html=True)
+st.title("Restaurant Recommendations")
+st.markdown(
+    '<p class="app-subtitle">Bangalore-first search with cleaner preferences and card-style results.</p>',
+    unsafe_allow_html=True,
+)
 
 with st.sidebar:
     st.header("Options")
@@ -50,9 +88,7 @@ with st.sidebar:
         value=True,
         help="Recommended on Streamlit Cloud (no large CSV). Uses in-memory sample data.",
     )
-    st.divider()
-    st.markdown("**Dev / testing**")
-    st.code("python -m src --mock-data", language="bash")
+    st.caption("No advanced tuning controls in Streamlit UI.")
 
 with st.form("preferences_form", clear_on_submit=False):
     st.subheader("Your preferences")
@@ -114,7 +150,8 @@ if submitted:
     if result.used_llm_fallback:
         st.warning("AI unavailable — showing filter-based results.")
 
-    vm = build_phase5_view_model(result, top_k=5)
+    # No frontend result cap: render all recommendations returned by backend.
+    vm = build_phase5_view_model(result, top_k=max(len(result.recommendations), 1))
     if vm.summary:
         st.info(vm.summary)
 
@@ -124,10 +161,7 @@ if submitted:
             "Try a different location, cuisine, or lower the minimum rating."
         )
     else:
-        st.success(
-            f"Found {len(result.recommendations)} recommendation(s) "
-            f"(showing top {len(vm.items)})"
-        )
+        st.success(f"Found {len(result.recommendations)} recommendation(s)")
         for item in vm.items:
             with st.container(border=True):
                 st.markdown(f"### #{item.rank} {item.name}")
