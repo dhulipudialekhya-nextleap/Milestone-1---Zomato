@@ -27,11 +27,10 @@ One guide to get the **public website** working end-to-end.
 
 | Setting | Value |
 |---------|--------|
-| **Root Directory** | *(leave empty)* — [`vercel.json`](../vercel.json) runs build in `frontend/` |
+| **Root Directory** | **`frontend`** ← required (must match `frontend/package.json`) |
 
-> Do **not** put `rootDirectory` in `vercel.json` (Vercel rejects it).  
-> Do **not** set Root Directory to `frontend` in UI **and** use repo `vercel.json` build commands (pick one).  
-> **Recommended:** Root Directory empty in UI + use repo `vercel.json` (current setup).
+> **“No Next.js version detected”** → Root Directory is wrong. It must be **`frontend`**, not empty, not `.`  
+> Do **not** put `rootDirectory` in a repo-root `vercel.json` (invalid). Use dashboard only.
 
 ### 3. Build and Deployment
 
@@ -97,9 +96,9 @@ After deploy:
 | Problem | Fix |
 |---------|-----|
 | 404 on homepage | Root Directory = `frontend`; Output Directory empty; redeploy |
-| “Additional root directory” | Root Directory in UI must be **empty** (see `vercel.json`) |
-| “Invalid … rootDirectory” | Removed from `vercel.json`; redeploy latest `main` |
-| “Couldn't find pages or app directory” | Pull latest `main`; `vercel.json` builds `frontend/` |
+| “No Next.js version detected” | **Root Directory = `frontend`** in Vercel Settings → General |
+| “Couldn't find pages or app directory” | Same fix: Root Directory = `frontend` |
+| “Invalid … rootDirectory” | Never put `rootDirectory` in `vercel.json`; use dashboard only |
 | “Folder already exists” | New project name e.g. `zomato-dineai` |
 | Amber banner on site | Add `NEXT_PUBLIC_API_URL` on Vercel, redeploy |
 | Failed to fetch | Railway URL in `NEXT_PUBLIC_API_URL`; Railway `/health` works |

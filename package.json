@@ -1,9 +1,0 @@
-{
-  "name": "milestone-1-zomato",
-  "private": true,
-  "description": "Monorepo: Next.js in frontend/, API on Railway",
-  "scripts": {
-    "build": "npm run build --prefix frontend",
-    "install:frontend": "npm install --prefix frontend"
-  }
-}
