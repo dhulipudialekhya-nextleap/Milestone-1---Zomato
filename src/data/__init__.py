@@ -1,11 +1,8 @@
-"""Phase 1: data ingestion and preprocessing."""
+"""Data loading (lazy: Phase 1 pandas/datasets not imported until ingestion runs)."""
 
-from src.data.loader import load_restaurants, load_mock_restaurants
-from src.data.phase1 import ingest_and_persist_dataset, load_processed_restaurants
+from src.data.loader import load_mock_restaurants, load_restaurants
 
 __all__ = [
     "load_restaurants",
     "load_mock_restaurants",
-    "ingest_and_persist_dataset",
-    "load_processed_restaurants",
 ]

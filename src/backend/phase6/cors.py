@@ -19,13 +19,18 @@ def get_cors_settings() -> tuple[list[str], str | None]:
     Example: https://my-app.vercel.app,http://localhost:3000
     """
     raw = os.getenv("CORS_ORIGINS", _DEFAULT_ORIGINS)
-    origins = [origin.strip() for origin in raw.split(",") if origin.strip()]
+    origins = [_normalize_origin(origin) for origin in raw.split(",") if origin.strip()]
 
     regex = os.getenv("CORS_ORIGIN_REGEX", _VERCEL_ORIGIN_REGEX).strip() or None
     if regex and not _is_valid_origin_regex(regex):
         regex = _VERCEL_ORIGIN_REGEX
 
     return origins, regex
+
+
+def _normalize_origin(origin: str) -> str:
+    """Strip whitespace and trailing slash (common Railway/Vercel copy-paste mistake)."""
+    return origin.strip().rstrip("/")
 
 
 def _is_valid_origin_regex(pattern: str) -> bool:

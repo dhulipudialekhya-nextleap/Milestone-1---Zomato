@@ -28,6 +28,12 @@ def test_cors_includes_vercel_regex() -> None:
     assert "vercel" in regex
 
 
+def test_cors_strips_trailing_slash_from_origins(monkeypatch) -> None:
+    monkeypatch.setenv("CORS_ORIGINS", "https://my-app.vercel.app/,http://localhost:3000")
+    origins, _ = get_cors_settings()
+    assert "https://my-app.vercel.app" in origins
+
+
 def test_skip_auto_ingest_when_railway_env(monkeypatch) -> None:
     monkeypatch.setenv("RAILWAY_ENVIRONMENT", "production")
     monkeypatch.delenv("DISABLE_DATA_INGEST", raising=False)

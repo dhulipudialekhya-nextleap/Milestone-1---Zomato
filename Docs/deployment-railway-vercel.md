@@ -66,7 +66,7 @@ In your service → **Variables**:
 | `LLM_PROVIDER` | `groq` | Use `mock` for demo without API key |
 | `LLM_API_KEY` | `gsk_...` | Required when `LLM_PROVIDER=groq` |
 | `LLM_MODEL` | `llama-3.1-8b-instant` | Groq model id |
-| `CORS_ORIGINS` | `https://your-app.vercel.app` | Your Vercel URL (no trailing slash) |
+| `CORS_ORIGINS` | `https://your-app.vercel.app` | **Optional** — `*.vercel.app` already allowed |
 | `LOG_LEVEL` | `INFO` | |
 | `SHORTLIST_SIZE` | `15` | |
 | `DISPLAY_TOP_K` | `5` | |
@@ -75,7 +75,7 @@ In your service → **Variables**:
 
 Railway sets `RAILWAY_ENVIRONMENT` automatically; the app skips auto-ingest when running on Railway.
 
-After Vercel deploy, update `CORS_ORIGINS` with your real Vercel domain and redeploy Railway.
+After Vercel deploy, you may add `CORS_ORIGINS` (optional). If redeploy fails, remove it — standard Vercel URLs work without it.
 
 ### 1.3 Verify backend
 
@@ -145,7 +145,7 @@ Optional for demo without CSV on Railway:
 | 1 | Deploy **Railway** backend; generate public domain |
 | 2 | `curl` `/health` and sample `POST /api/recommendations` |
 | 3 | Deploy **Vercel** with `NEXT_PUBLIC_API_URL` = Railway URL |
-| 4 | Set Railway `CORS_ORIGINS` to Vercel URL; redeploy Railway |
+| 4 | *(Optional)* Set Railway `CORS_ORIGINS` to Vercel URL |
 | 5 | End-to-end test from browser |
 
 ---
@@ -174,7 +174,8 @@ npm run dev
 
 | Symptom | Likely cause | Fix |
 |---------|----------------|-----|
-| CORS error in browser | `CORS_ORIGINS` missing Vercel URL | Add exact origin on Railway |
+| CORS error in browser | Custom domain not allowed | Add exact origin to `CORS_ORIGINS` (no trailing `/`) |
+| Railway redeploy fails after Step 3 | Bad env value or health timeout | Remove `CORS_ORIGINS`; verify `SHORTLIST_SIZE=15`, `DISPLAY_TOP_K=5`; redeploy |
 | `Failed to fetch` | Wrong `NEXT_PUBLIC_API_URL` | Point to Railway HTTPS URL |
 | Empty recommendations | No CSV + mock off | `NEXT_PUBLIC_USE_MOCK=true` |
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Railway |

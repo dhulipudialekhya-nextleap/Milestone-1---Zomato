@@ -114,9 +114,12 @@ def load_settings() -> Settings:
         "DISPLAY_TOP_K", _get_env("DISPLAY_TOP_K"), 5, minimum=1
     )
     if display_top_k > shortlist_size:
-        raise ConfigError(
-            f"DISPLAY_TOP_K ({display_top_k}) cannot exceed SHORTLIST_SIZE ({shortlist_size})"
+        logging.getLogger(__name__).warning(
+            "DISPLAY_TOP_K (%s) exceeds SHORTLIST_SIZE (%s); clamping to shortlist size",
+            display_top_k,
+            shortlist_size,
         )
+        display_top_k = shortlist_size
 
     processed_path = Path(_get_env("PROCESSED_DATA_PATH", "data/processed/restaurants.csv") or "")
 
