@@ -1,0 +1,9 @@
+{
+  "name": "milestone-1-zomato",
+  "private": true,
+  "description": "Monorepo: deploy frontend/ on Vercel, backend on Render.",
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "dev": "npm run dev --prefix frontend"
+  }
+}

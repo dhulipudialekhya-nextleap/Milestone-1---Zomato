@@ -113,7 +113,9 @@ curl -X POST https://YOUR-RENDER-SERVICE.onrender.com/api/recommendations \
 > Vercel is building the **Python repo root** instead of Next.js. Fix: set **Root Directory** to `frontend` and redeploy.  
 > Do **not** add the suggested `pyproject.toml` FastAPI entrypoint — the API runs on **Render**, not Vercel.
 
-**Alternative:** leave Root Directory empty and use the repo-root [`vercel.json`](../vercel.json), which builds `frontend/` explicitly.
+**Alternative:** leave Root Directory empty — repo-root [`vercel.json`](../vercel.json) and [`.vercelignore`](../.vercelignore) build only `frontend/` and exclude Python.
+
+**Redeploy after fix:** Vercel → **Deployments** → latest → **⋯** → **Redeploy**, or push to `main` (auto-deploy if GitHub is connected).
 
 ### 2.2 Environment variables (Vercel)
 

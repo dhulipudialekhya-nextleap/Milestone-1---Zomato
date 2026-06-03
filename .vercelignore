@@ -1,0 +1,15 @@
+# Backend / Python — deploy API on Render only, not Vercel
+src/
+tests/
+requirements.txt
+requirements-legacy-ui.txt
+render.yaml
+Procfile
+runtime.txt
+pytest.ini
+contracts/
+data/
+.venv/
+venv/
+*.py
+pyproject.toml
