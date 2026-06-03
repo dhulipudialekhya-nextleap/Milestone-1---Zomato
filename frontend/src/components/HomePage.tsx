@@ -10,7 +10,7 @@ import { PersonalizedPicks } from "@/components/PersonalizedPicks";
 import { PopularSearches } from "@/components/PopularSearches";
 import { PreferenceForm } from "@/components/PreferenceForm";
 import { ApiError, fetchRecommendations } from "@/lib/api";
-import { useMockData } from "@/lib/env";
+import { isProductionApiMisconfigured, useMockData } from "@/lib/env";
 import { SAMPLE_PICKS } from "@/lib/samplePicks";
 import {
   DEFAULT_FORM_VALUES,
@@ -96,6 +96,13 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-surface-muted">
       <Navbar />
+
+      {isProductionApiMisconfigured() ? (
+        <div className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm text-amber-900">
+          Set <strong>NEXT_PUBLIC_API_URL</strong> to your Railway URL in Vercel → Settings →
+          Environment Variables, then redeploy.
+        </div>
+      ) : null}
 
       <main className="hero-gradient pb-16 pt-24">
         <div className="mx-auto max-w-page px-4 sm:px-6 lg:px-12">

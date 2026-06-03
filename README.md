@@ -92,7 +92,7 @@ Open [http://localhost:3000](http://localhost:3000), enter preferences, and clic
 
 ### Deploy (production)
 
-See **[Docs/deployment-railway-vercel.md](Docs/deployment-railway-vercel.md)** — Railway for FastAPI, Vercel for Next.js.  
+See **[Docs/VERCEL-FINAL-DEPLOY.md](Docs/VERCEL-FINAL-DEPLOY.md)** for the live website (Vercel + Railway). Full reference: [Docs/deployment-railway-vercel.md](Docs/deployment-railway-vercel.md).  
 Railway variables template: [`railway.env.example`](railway.env.example)
 
 ### Run via CLI (dev / testing only)
@@ -138,6 +138,7 @@ See [.env.example](.env.example) for all options.
 
 - [Problem statement](Docs/problemstatement.md)
 - [Architecture](Docs/architecture.md)
+- [Final website deploy (start here)](Docs/VERCEL-FINAL-DEPLOY.md)
 - [Deploy: Railway + Vercel](Docs/deployment-railway-vercel.md)
 - [Phase 8 API contract](Docs/phase8-api-contract.md)
 - [Edge cases](Docs/edge-cases.md)

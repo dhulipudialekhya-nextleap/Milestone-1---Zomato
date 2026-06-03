@@ -21,6 +21,11 @@ export function isLocalApi(): boolean {
   return base.includes("localhost") || base.includes("127.0.0.1");
 }
 
+/** True when Vercel prod build has no NEXT_PUBLIC_API_URL (shows setup hint). */
+export function isProductionApiMisconfigured(): boolean {
+  return process.env.NODE_ENV === "production" && isLocalApi();
+}
+
 /** Allow time for cold starts on hosted API tiers. */
 export const API_REQUEST_TIMEOUT_MS = 90_000;
 
