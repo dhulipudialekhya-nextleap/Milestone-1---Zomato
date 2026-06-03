@@ -7,8 +7,5 @@ datasets>=2.14.0
 
 # Phase 6/7 — backend API for Next.js frontend (deployed on Railway)
 fastapi>=0.115.0
-uvicorn>=0.32.0
+uvicorn[standard]>=0.32.0
 httpx>=0.27.0
-
-# Development
-pytest>=7.4.0

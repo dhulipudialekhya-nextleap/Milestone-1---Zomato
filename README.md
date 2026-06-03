@@ -61,7 +61,7 @@ contracts/v1/              # Exported schemas + shared JSON fixtures (Phase 8)
 cd "MILESTONE 1 - ZOMATO"
 python -m venv .venv
 .venv\Scripts\activate          # Windows
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 copy .env.example .env          # optional; defaults work for Phase 0
 ```
 

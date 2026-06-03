@@ -1,11 +1,5 @@
-# Nixpacks build config for Railway (Python 3.12)
+# Nixpacks — let Railway auto-install Python, then requirements.txt
 # https://nixpacks.com/docs/configuration/file
 
 [variables]
 NIXPACKS_PYTHON_VERSION = "3.12"
-
-[phases.install]
-cmds = ["pip install -r requirements.txt"]
-
-[start]
-cmd = "uvicorn src.backend.phase6.server:app --host 0.0.0.0 --port ${PORT:-8000}"

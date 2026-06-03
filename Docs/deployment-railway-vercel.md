@@ -48,8 +48,8 @@ The full ~640 MB `restaurants.csv` is **gitignored** and must not be pushed to G
 | Setting | Value |
 |---------|--------|
 | **Root directory** | *(repo root)* |
-| **Build command** | `pip install -r requirements.txt` |
-| **Start command** | `uvicorn src.backend.phase6.server:app --host 0.0.0.0 --port $PORT` |
+| **Build command** | *(leave empty — Nixpacks auto-detects `requirements.txt`)* |
+| **Start command** | `python -m uvicorn src.backend.phase6.server:app --host 0.0.0.0 --port $PORT` |
 
 Optional: repo includes [`railway.toml`](../railway.toml) and [`nixpacks.toml`](../nixpacks.toml).  
 Copy variables from [`railway.env.example`](../railway.env.example) into Railway → **Variables**.
@@ -179,7 +179,7 @@ npm run dev
 | Empty recommendations | No CSV + mock off | `NEXT_PUBLIC_USE_MOCK=true` |
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Railway |
 | Build fails on Vercel | Wrong root | Root directory = `frontend` |
-| Railway build fails | Missing deps | Check `requirements.txt` at repo root |
+| Railway build fails (`pip: command not found`) | Custom build command before Python install | Clear **Build Command** in Railway; use repo `railway.toml` / `nixpacks.toml` only |
 
 ---
 
