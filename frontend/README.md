@@ -16,8 +16,10 @@ Set `NEXT_PUBLIC_API_URL=http://localhost:8000` and run the backend from the rep
 
 | Setting | Value |
 |---------|--------|
-| Root Directory | **`frontend`** (required — `next` is in `frontend/package.json` only) |
+| Root Directory | **`frontend`** (required) |
+| Node.js | **20.x** |
 | Framework | Next.js |
+| Build / Install / Output | all empty (uses `frontend/vercel.json`) |
 
 **Environment variables:**
 
