@@ -105,9 +105,14 @@ curl -X POST https://YOUR-RENDER-SERVICE.onrender.com/api/recommendations \
 | Setting | Value |
 |---------|--------|
 | **Framework preset** | Next.js |
-| **Root directory** | **`frontend`** ← required (do not leave empty) |
+| **Root directory** | **`frontend`** ← required (must contain `package.json` with `next`) |
 | **Build command** | `npm run build` (default when root is `frontend`) |
 | **Output** | Next.js default |
+
+> **If you see:** `No Next.js version detected`  
+> Vercel is reading the **repo root** `package.json` (no `next`) instead of `frontend/package.json`.  
+> Fix: set **Root Directory** to **`frontend`**, or use repo-root [`vercel.json`](../vercel.json) with `"rootDirectory": "frontend"`.  
+> Do **not** add a root `package.json` without `next` in dependencies.
 
 > **If you see:** `Found src/app.py but it does not define a top-level "app" FastAPI instance`  
 > Vercel is building the **Python repo root** instead of Next.js. Fix: set **Root Directory** to `frontend` and redeploy.  
@@ -186,6 +191,7 @@ Contract reference: [phase8-api-contract.md](./phase8-api-contract.md)
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Render |
 | Build fails on Vercel | Wrong root | Root directory must be `frontend` |
 | FastAPI / `src/app.py` error on Vercel | Vercel detected Python backend | Set Root Directory = `frontend`; backend is on Render only |
+| No Next.js version detected | Root Directory not `frontend` | Set Root Directory = `frontend`; remove root `package.json` without `next` |
 
 ---
 

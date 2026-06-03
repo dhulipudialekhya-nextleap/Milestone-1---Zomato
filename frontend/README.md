@@ -16,8 +16,10 @@ Set `NEXT_PUBLIC_API_URL=http://localhost:8000` and run the backend from the rep
 
 | Setting | Value |
 |---------|--------|
-| Root Directory | `frontend` |
+| Root Directory | **`frontend`** (required — `next` is in `frontend/package.json` only) |
 | Framework | Next.js |
+
+If Vercel says **No Next.js version detected**, Root Directory is wrong (must be `frontend`, not repo root).
 
 **Environment variables:**
 
