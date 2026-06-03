@@ -39,7 +39,7 @@ app.add_middleware(
 
 @app.get("/")
 def root() -> dict[str, str]:
-    """Service index for Render health checks and manual verification."""
+    """Service index for health checks and manual verification."""
     return {
         "service": "zomato-ai-recommendations-api",
         "status": "ok",

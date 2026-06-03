@@ -123,7 +123,7 @@ flowchart LR
 
 ### Post-Phase-5 continuation (Phase 6+)
 
-Detailed planning for **Phase 6 (Backend)**, **Phase 7 (Frontend)**, **Phase 8 (Interface)**, and **Phase 9 (Deployment: Render + Vercel)** is defined in the main phase-wise sequence under `## 3. Phase-Wise Architecture`.
+Detailed planning for **Phase 6 (Backend)**, **Phase 7 (Frontend)**, **Phase 8 (Interface)**, and **Phase 9 (Deployment: Railway + Vercel)** is defined in the main phase-wise sequence under `## 3. Phase-Wise Architecture`.
 
 ### Recommended folder split
 
@@ -593,64 +593,65 @@ A copy-paste prompt for generating frontend mockups with Google Stitch is docume
 
 ---
 
-### Phase 9 — Deployment (Render + Vercel)
+### Phase 9 — Deployment (Railway + Vercel)
 
-**Goal:** Deploy the production stack as two free-tier services: **FastAPI on Render**, **Next.js on Vercel**.
+**Goal:** Deploy the production stack as two services: **FastAPI on Railway**, **Next.js on Vercel**.
 
-Full step-by-step guide: **[deployment-render-vercel.md](./deployment-render-vercel.md)**
+Full step-by-step guide: **[deployment-railway-vercel.md](./deployment-railway-vercel.md)**
 
 #### Deployment model
 
 | Layer | Host | Artifact |
 |-------|------|----------|
 | **Frontend** | [Vercel](https://vercel.com) | `frontend/` — root directory `frontend` |
-| **Backend** | [Render](https://render.com) | `uvicorn src.backend.phase6.server:app` — repo root |
+| **Backend** | [Railway](https://railway.com) | `uvicorn src.backend.phase6.server:app` — repo root |
 | **Contract** | Phase 8 | `POST /api/recommendations`, `GET /health`, `GET /api/contract` |
-| **Data** | Render disk / mock | Sample CSV or `use_mock_data` (large CSV not in git) |
-| **LLM** | Groq | `LLM_API_KEY` on Render only |
+| **Data** | Railway volume / mock | Sample CSV or `use_mock_data` (large CSV not in git) |
+| **LLM** | Groq | `LLM_API_KEY` on Railway only |
 
 ```mermaid
 flowchart LR
   User[Browser] --> Vercel[Vercel Next.js]
-  Vercel -->|HTTPS JSON| Render[Render FastAPI]
-  Render --> Data[(mock or CSV)]
-  Render --> Groq[Groq API]
+  Vercel -->|HTTPS JSON| Railway[Railway FastAPI]
+  Railway --> Data[(mock or CSV)]
+  Railway --> Groq[Groq API]
 ```
 
 #### Repo deploy files
 
 | File | Purpose |
 |------|---------|
-| [`render.yaml`](../render.yaml) | Optional Render Blueprint for backend |
+| [`railway.toml`](../railway.toml) | Railway config (start command, health check) |
+| [`Procfile`](../Procfile) | Alternative start command for Railway/Heroku-style hosts |
+| [`vercel.json`](../vercel.json) | Vercel monorepo root (`rootDirectory: frontend`) |
 | [`frontend/vercel.json`](../frontend/vercel.json) | Vercel build hints |
-| [`Docs/deployment-render-vercel.md`](./deployment-render-vercel.md) | Checklist, env vars, troubleshooting |
+| [`Docs/deployment-railway-vercel.md`](./deployment-railway-vercel.md) | Checklist, env vars, troubleshooting |
 
 #### Environment wiring
 
-**Render (backend):**
+**Railway (backend):**
 
 - `CORS_ORIGINS` = `https://<your-project>.vercel.app`
 - `LLM_PROVIDER`, `LLM_API_KEY` for Groq
-- Optional: `PROCESSED_DATA_PATH` if sample data is committed
+- `DISABLE_DATA_INGEST=true` when no CSV is bundled
 
 **Vercel (frontend):**
 
-- `NEXT_PUBLIC_API_URL` = `https://<your-service>.onrender.com`
-- Optional: `NEXT_PUBLIC_USE_MOCK=true` for demo without CSV on Render
+- `NEXT_PUBLIC_API_URL` = `https://<your-service>.up.railway.app`
+- Optional: `NEXT_PUBLIC_USE_MOCK=true` for demo without CSV on Railway
 
 #### Operational concerns
 
 - Secrets in platform env only (never committed)
-- Render free tier cold starts (~30–60s after idle)
 - Phase 8 contract tests guard API shape across deploys
 - Health check: `GET /health`
 
 #### Phase exit criteria
 
-- Backend live on Render with `/health` OK
-- Frontend live on Vercel calling Render API
+- Backend live on Railway with `/health` OK
+- Frontend live on Vercel calling Railway API
 - CORS configured; recommendations work in browser
-- Deployment documented in `Docs/deployment-render-vercel.md`
+- Deployment documented in `Docs/deployment-railway-vercel.md`
 
 ---
 
@@ -715,8 +716,8 @@ Next.js PreferenceForm submit
 | Language | Python 3.10+                                |
 | Data     | `pandas`, `datasets` (Hugging Face)         |
 | UI       | Next.js (Phase 7) — Vercel                    |
-| API      | FastAPI + uvicorn (Phase 6) — Render          |
-| Deploy   | Vercel + Render (Phase 9)                     |
+| API      | FastAPI + uvicorn (Phase 6) — Railway         |
+| Deploy   | Vercel + Railway (Phase 9)                    |
 | LLM      | **Groq** (current), OpenAI, Gemini, Ollama  |
 | Config   | `python-dotenv` + platform env vars           |
 
@@ -739,7 +740,7 @@ Stack choice is flexible; phases and boundaries stay the same.
 | 6 | Backend architecture consolidation | 5 |
 | 7 | Frontend architecture consolidation (Next.js) | 5, 6 |
 | 8 | Frontend-backend interface contract | 6, 7 |
-| 9 | Deployment (Render backend + Vercel frontend) | 8 |
+| 9 | Deployment (Railway backend + Vercel frontend) | 8 |
 
 
 ---

@@ -1,4 +1,4 @@
-"""CORS configuration for local dev and production (Vercel + Render)."""
+"""CORS configuration for local dev and production (Vercel + Railway)."""
 
 from __future__ import annotations
 

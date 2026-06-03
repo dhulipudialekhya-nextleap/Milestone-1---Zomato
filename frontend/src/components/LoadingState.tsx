@@ -8,7 +8,7 @@ export function LoadingState() {
         <p className="text-sm font-medium text-ink-muted">Finding restaurants for you…</p>
         {!isLocalApi() ? (
           <p className="mt-1 text-xs text-ink-muted">
-            First request after idle may take up to a minute while the API wakes on Render.
+            First request may take a moment while the Railway API responds.
           </p>
         ) : null}
       </div>

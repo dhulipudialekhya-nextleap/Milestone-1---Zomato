@@ -1,9 +1,10 @@
-# Backend / Python — deploy API on Render only, not Vercel
+# Backend / Python — deploy API on Railway only, not Vercel
 src/
 tests/
 requirements.txt
 requirements-legacy-ui.txt
 render.yaml
+railway.toml
 Procfile
 runtime.txt
 pytest.ini

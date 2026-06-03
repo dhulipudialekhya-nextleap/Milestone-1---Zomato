@@ -13,7 +13,7 @@ AI-powered restaurant recommendations combining structured Zomato data with LLM 
 - Phase 6: backend service boundary + contracts in separate folder
 - Phase 7: Next.js frontend in `frontend/` consuming backend API
 - Phase 8: Frontend-backend API contract (`GET /api/contract`, shared fixtures, regression tests)
-- Phase 9: Production deploy — **Vercel** (frontend) + **Render** (backend) — see [Docs/deployment-render-vercel.md](Docs/deployment-render-vercel.md)
+- Phase 9: Production deploy — **Vercel** (frontend) + **Railway** (backend) — see [Docs/deployment-railway-vercel.md](Docs/deployment-railway-vercel.md)
 
 ### Project structure
 
@@ -92,7 +92,7 @@ Open [http://localhost:3000](http://localhost:3000), enter preferences, and clic
 
 ### Deploy (production)
 
-See **[Docs/deployment-render-vercel.md](Docs/deployment-render-vercel.md)** — Render for FastAPI, Vercel for Next.js.
+See **[Docs/deployment-railway-vercel.md](Docs/deployment-railway-vercel.md)** — Railway for FastAPI, Vercel for Next.js.
 
 ### Run via CLI (dev / testing only)
 
@@ -137,6 +137,6 @@ See [.env.example](.env.example) for all options.
 
 - [Problem statement](Docs/problemstatement.md)
 - [Architecture](Docs/architecture.md)
-- [Deploy: Render + Vercel](Docs/deployment-render-vercel.md)
+- [Deploy: Railway + Vercel](Docs/deployment-railway-vercel.md)
 - [Phase 8 API contract](Docs/phase8-api-contract.md)
 - [Edge cases](Docs/edge-cases.md)

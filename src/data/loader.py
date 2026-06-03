@@ -80,7 +80,7 @@ def load_restaurants(*, use_mock: bool = False) -> list[Restaurant]:
 
     if _should_skip_auto_ingest():
         logger.warning(
-            "Processed data missing at %s; auto-ingest disabled (Render/demo). Using mock data.",
+            "Processed data missing at %s; auto-ingest disabled (Railway/demo). Using mock data.",
             path,
         )
         return load_mock_restaurants()
@@ -98,9 +98,9 @@ def load_restaurants(*, use_mock: bool = False) -> list[Restaurant]:
 
 
 def _should_skip_auto_ingest() -> bool:
-    """Skip slow Hugging Face ingest on Render when no CSV is bundled (see render.yaml)."""
+    """Skip slow Hugging Face ingest on Railway when no CSV is bundled (see railway.toml)."""
     if os.getenv("DISABLE_DATA_INGEST", "").strip().lower() in ("1", "true", "yes"):
         return True
-    if os.getenv("RENDER", "").strip().lower() == "true":
+    if os.getenv("RAILWAY_ENVIRONMENT", "").strip():
         return True
     return False

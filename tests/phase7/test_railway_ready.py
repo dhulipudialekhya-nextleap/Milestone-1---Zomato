@@ -1,4 +1,4 @@
-"""Render deployment readiness checks for the FastAPI backend."""
+"""Railway deployment readiness checks for the FastAPI backend."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ def test_cors_includes_vercel_regex() -> None:
     assert "vercel" in regex
 
 
-def test_skip_auto_ingest_when_render_env(monkeypatch) -> None:
-    monkeypatch.setenv("RENDER", "true")
+def test_skip_auto_ingest_when_railway_env(monkeypatch) -> None:
+    monkeypatch.setenv("RAILWAY_ENVIRONMENT", "production")
     monkeypatch.delenv("DISABLE_DATA_INGEST", raising=False)
     assert _should_skip_auto_ingest() is True

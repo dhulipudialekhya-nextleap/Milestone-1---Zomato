@@ -2,7 +2,7 @@
 Legacy Streamlit UI (optional, not used for production deploy).
 
 Production UI: Next.js in frontend/ (Vercel).
-Deploy guide: Docs/deployment-render-vercel.md
+Deploy guide: Docs/deployment-railway-vercel.md
 
 Local only (requires pip install -r requirements-legacy-ui.txt):
     streamlit run src/presentation/web_ui.py

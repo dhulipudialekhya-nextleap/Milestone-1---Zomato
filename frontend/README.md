@@ -1,6 +1,6 @@
 # DineAI Frontend (Next.js)
 
-Deployed on **Vercel**. Talks to the FastAPI backend on **Render**.
+Deployed on **Vercel**. Talks to the FastAPI backend on **Railway**.
 
 ## Local dev
 
@@ -19,13 +19,11 @@ Set `NEXT_PUBLIC_API_URL=http://localhost:8000` and run the backend from the rep
 | Root Directory | **`frontend`** (required — `next` is in `frontend/package.json` only) |
 | Framework | Next.js |
 
-If Vercel says **No Next.js version detected**, Root Directory is wrong (must be `frontend`, not repo root).
-
 **Environment variables:**
 
 | Key | Value |
 |-----|--------|
-| `NEXT_PUBLIC_API_URL` | `https://YOUR-RENDER-SERVICE.onrender.com` |
+| `NEXT_PUBLIC_API_URL` | `https://YOUR-SERVICE.up.railway.app` |
 | `NEXT_PUBLIC_USE_MOCK` | `true` (recommended for demo) |
 
-Full guide: [Docs/deployment-render-vercel.md](../Docs/deployment-render-vercel.md)
+Full guide: [Docs/deployment-railway-vercel.md](../Docs/deployment-railway-vercel.md)

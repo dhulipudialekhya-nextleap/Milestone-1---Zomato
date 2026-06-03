@@ -12,7 +12,7 @@ setup_logging()
 
 
 def main() -> None:
-    """Run uvicorn; on Render, bind to $PORT (see Docs/deployment-render-vercel.md)."""
+    """Run uvicorn; on Railway, bind to $PORT (see Docs/deployment-railway-vercel.md)."""
     port = int(os.getenv("PORT", "8000"))
     uvicorn.run(
         "src.backend.phase6.server:app",
