@@ -105,9 +105,15 @@ curl -X POST https://YOUR-RENDER-SERVICE.onrender.com/api/recommendations \
 | Setting | Value |
 |---------|--------|
 | **Framework preset** | Next.js |
-| **Root directory** | `frontend` |
-| **Build command** | `npm run build` (default) |
+| **Root directory** | **`frontend`** ← required (do not leave empty) |
+| **Build command** | `npm run build` (default when root is `frontend`) |
 | **Output** | Next.js default |
+
+> **If you see:** `Found src/app.py but it does not define a top-level "app" FastAPI instance`  
+> Vercel is building the **Python repo root** instead of Next.js. Fix: set **Root Directory** to `frontend` and redeploy.  
+> Do **not** add the suggested `pyproject.toml` FastAPI entrypoint — the API runs on **Render**, not Vercel.
+
+**Alternative:** leave Root Directory empty and use the repo-root [`vercel.json`](../vercel.json), which builds `frontend/` explicitly.
 
 ### 2.2 Environment variables (Vercel)
 
@@ -177,6 +183,7 @@ Contract reference: [phase8-api-contract.md](./phase8-api-contract.md)
 | Empty recommendations | No CSV + mock off | `NEXT_PUBLIC_USE_MOCK=true` or ingest sample data |
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Render |
 | Build fails on Vercel | Wrong root | Root directory must be `frontend` |
+| FastAPI / `src/app.py` error on Vercel | Vercel detected Python backend | Set Root Directory = `frontend`; backend is on Render only |
 
 ---
 
