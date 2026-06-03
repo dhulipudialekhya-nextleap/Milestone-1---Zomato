@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 
 from src.config import settings
@@ -18,7 +19,7 @@ def load_mock_restaurants() -> list[Restaurant]:
         Restaurant(
             id="mock-1",
             name="Mock Italian Bistro",
-            location="Bangalore",
+            location="Koramangala",
             cuisines=["Italian", "Continental"],
             average_cost=600,
             cost_band="medium",
@@ -28,7 +29,7 @@ def load_mock_restaurants() -> list[Restaurant]:
         Restaurant(
             id="mock-2",
             name="Mock Chinese Wok",
-            location="Bangalore",
+            location="Indiranagar",
             cuisines=["Chinese", "Asian"],
             average_cost=400,
             cost_band="low",
@@ -77,6 +78,13 @@ def load_restaurants(*, use_mock: bool = False) -> list[Restaurant]:
         logger.info("Loading processed dataset from %s", path)
         return load_processed_restaurants(path)
 
+    if _should_skip_auto_ingest():
+        logger.warning(
+            "Processed data missing at %s; auto-ingest disabled (Render/demo). Using mock data.",
+            path,
+        )
+        return load_mock_restaurants()
+
     logger.info("Processed data missing at %s, triggering Phase 1 ingestion", path)
     try:
         restaurants = ingest_and_persist_dataset(settings.dataset_source, path)
@@ -87,3 +95,12 @@ def load_restaurants(*, use_mock: bool = False) -> list[Restaurant]:
             exc,
         )
         return load_mock_restaurants()
+
+
+def _should_skip_auto_ingest() -> bool:
+    """Skip slow Hugging Face ingest on Render when no CSV is bundled (see render.yaml)."""
+    if os.getenv("DISABLE_DATA_INGEST", "").strip().lower() in ("1", "true", "yes"):
+        return True
+    if os.getenv("RENDER", "").strip().lower() == "true":
+        return True
+    return False

@@ -1,0 +1,3 @@
+# Optional — legacy Streamlit UI only (not used for Render/Vercel deploy)
+-r requirements.txt
+streamlit>=1.28.0

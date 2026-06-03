@@ -96,11 +96,11 @@ After completing Phase 5, the project is a two-tier application:
 
 ```mermaid
 flowchart LR
-    subgraph FE["Frontend (Streamlit)"]
-        FORM[Preference Form]
-        CARDS[Recommendation Cards]
-        EXPORT[JSON Export]
-        FORM --> CARDS --> EXPORT
+    subgraph FE["Frontend (Next.js)"]
+        FORM[PreferenceForm]
+        API_CLIENT[API Client]
+        CARDS[ResultsPanel]
+        FORM --> API_CLIENT --> CARDS
     end
 
     subgraph BE["Backend Service (Python)"]
@@ -123,7 +123,7 @@ flowchart LR
 
 ### Post-Phase-5 continuation (Phase 6+)
 
-Detailed planning for **Phase 6 (Backend)**, **Phase 7 (Frontend)**, **Phase 8 (Interface)**, **Phase 9 (Deployment)**, and **Phase 10 (Streamlit deployment)** is defined in the main phase-wise sequence under `## 3. Phase-Wise Architecture`.
+Detailed planning for **Phase 6 (Backend)**, **Phase 7 (Frontend)**, **Phase 8 (Interface)**, and **Phase 9 (Deployment: Render + Vercel)** is defined in the main phase-wise sequence under `## 3. Phase-Wise Architecture`.
 
 ### Recommended folder split
 
@@ -136,9 +136,8 @@ src/
 │   ├── filters/phase3/
 │   ├── llm/phase4/
 │   └── models/
-├── frontend/
-│   ├── streamlit_app.py           # UI entry
-│   └── presentation/phase5/
+├── frontend/                      # Next.js (Vercel)
+│   └── src/ ...
 └── shared/
     └── contracts.py               # Request/response schemas (optional extraction)
 ```
@@ -162,7 +161,7 @@ src/
 | **Deliverable** | Empty pipeline invocable end-to-end with mocks **via the web UI** (CLI retained for dev/testing only)                                            |
 
 
-**Input decision:** User preferences are collected through a **basic web UI** (Streamlit). The CLI is optional and used for automation, debugging, and tests—not the main user entry point.
+**Input decision:** User preferences are collected through the **Next.js web UI** (`frontend/`). Legacy Streamlit (`web_ui.py`) and CLI remain for dev/tests only.
 
 **Suggested structure:**
 
@@ -175,7 +174,7 @@ src/
 ├── filters/           # Phase 3
 ├── llm/               # Phase 4 (prompt, client, parser)
 ├── presentation/
-│   ├── web_ui.py      # Phase 0/2 — primary input + results (Streamlit)
+│   ├── web_ui.py      # Legacy Streamlit (optional, not deployed)
 │   └── renderer.py    # Formatting helpers
 └── app.py             # Orchestrator (pipeline logic)
 ```
@@ -261,7 +260,7 @@ flowchart LR
 
 | Component            | Responsibility                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------------ |
-| **Input surface**    | **Basic web UI (Streamlit)** — primary; CLI for dev/tests only                             |
+| **Input surface**    | **Next.js UI** (`frontend/`) — primary; CLI for dev/tests only                             |
 | **Phase 2 service**  | Build validated `UserPreferences` from raw form/CLI values                                 |
 | **Validator**        | Enforce required fields, allowed enum values, rating range (Pydantic + inline form errors) |
 | **Preference model** | Single object passed to Phase 3 and embedded in Phase 4 prompts                            |
@@ -594,146 +593,64 @@ A copy-paste prompt for generating frontend mockups with Google Stitch is docume
 
 ---
 
-### Phase 9 — Deployment architecture (target)
+### Phase 9 — Deployment (Render + Vercel)
 
-**Goal:** Define deployable topology for production-like usage (split services).
+**Goal:** Deploy the production stack as two free-tier services: **FastAPI on Render**, **Next.js on Vercel**.
+
+Full step-by-step guide: **[deployment-render-vercel.md](./deployment-render-vercel.md)**
 
 #### Deployment model
 
-| Layer | Current | Target |
-|-------|---------|--------|
-| **Frontend** | Next.js dev server (`frontend/`) | Static/SSR host (e.g., Vercel, Netlify) |
-| **Backend** | FastAPI (`src/backend/phase6/`) | Managed API service (e.g., Render, Fly.io) |
-| **Legacy UI** | Streamlit (`src/presentation/web_ui.py`) | Optional; see **Phase 10** for all-in-one Streamlit hosting |
-| **Data** | Local processed CSV | Bundled sample, build-time ingest, or external store |
-| **LLM** | Groq API via backend service | Same, with key management and monitoring |
-
-#### Operational concerns
-
-- Secrets in environment variables only (never committed)
-- `CORS_ORIGINS` on backend must include the production frontend origin
-- `NEXT_PUBLIC_API_URL` on frontend must point to the deployed API base URL
-- Structured logging for filter/LLM performance
-- Health checks (`GET /health`) and timeout/fallback monitoring
-- Optional caching for repeated preference queries
-
-#### Phase exit criteria
-
-- Next.js frontend and FastAPI backend are deployable as separate services
-- Environment-based configuration supports dev/staging/prod
-- Reliability targets are met under Groq/API/network failures
-
----
-
-### Phase 10 — Streamlit deployment (free hosting)
-
-**Goal:** Publish the legacy **all-in-one** Streamlit app (`src/presentation/web_ui.py`) to a free host without running a separate Next.js or FastAPI process. Suitable for demos, milestones, and quick sharing when the full two-tier stack is not required.
-
-#### Why a separate phase
-
-| Aspect | Phase 9 (split stack) | Phase 10 (Streamlit) |
-|--------|------------------------|----------------------|
-| **Processes** | Next.js + FastAPI (2 services) | Single Streamlit process |
-| **UI entry** | `frontend/` | `src/presentation/web_ui.py` |
-| **Pipeline** | HTTP API → `run_backend_request` | In-process `execute_pipeline` |
-| **Primary free host** | Vercel + Render | [Streamlit Community Cloud](https://streamlit.io/cloud) |
-| **Best for** | Production-like portfolio | Fast deploy, classroom demos |
+| Layer | Host | Artifact |
+|-------|------|----------|
+| **Frontend** | [Vercel](https://vercel.com) | `frontend/` — root directory `frontend` |
+| **Backend** | [Render](https://render.com) | `uvicorn src.backend.phase6.server:app` — repo root |
+| **Contract** | Phase 8 | `POST /api/recommendations`, `GET /health`, `GET /api/contract` |
+| **Data** | Render disk / mock | Sample CSV or `use_mock_data` (large CSV not in git) |
+| **LLM** | Groq | `LLM_API_KEY` on Render only |
 
 ```mermaid
 flowchart LR
-    subgraph Cloud["Streamlit Community Cloud"]
-        ST[Streamlit runtime]
-        UI[web_ui.py]
-        ORCH[execute_pipeline]
-        UI --> ORCH
-    end
-
-    subgraph External["External services"]
-        HF[(Hugging Face dataset)]
-        GROQ[(Groq API)]
-        CSV[(processed CSV or mock)]
-    end
-
-    ST --> CSV
-    ST --> GROQ
-    ORCH -. optional ingest .-> HF
+  User[Browser] --> Vercel[Vercel Next.js]
+  Vercel -->|HTTPS JSON| Render[Render FastAPI]
+  Render --> Data[(mock or CSV)]
+  Render --> Groq[Groq API]
 ```
 
-#### Components
+#### Repo deploy files
 
-| Component | Responsibility |
-|-----------|----------------|
-| **`src/presentation/web_ui.py`** | App entry: form, sidebar mock toggle, results via Phase 5 view model |
-| **`requirements.txt`** | Must include `streamlit`, `pandas`, `fastapi` deps used by pipeline |
-| **`.streamlit/config.toml`** (optional) | Theme, server headless defaults for cloud |
-| **Secrets / env** | `LLM_API_KEY`, `LLM_PROVIDER`, `PROCESSED_DATA_PATH`, budget/shortlist vars |
-| **Repository layout** | Streamlit Cloud main file: `streamlit_app.py` (root); UI in `src/presentation/web_ui.py` |
+| File | Purpose |
+|------|---------|
+| [`render.yaml`](../render.yaml) | Optional Render Blueprint for backend |
+| [`frontend/vercel.json`](../frontend/vercel.json) | Vercel build hints |
+| [`Docs/deployment-render-vercel.md`](./deployment-render-vercel.md) | Checklist, env vars, troubleshooting |
 
-#### Recommended free hosting
+#### Environment wiring
 
-| Platform | Cost | Notes |
-|----------|------|--------|
-| **Streamlit Community Cloud** | Free (public repos) | Connect GitHub → set main file → add secrets in dashboard |
-| **Render** (optional) | Free tier | Web service with start command `streamlit run src/presentation/web_ui.py --server.port=$PORT --server.address=0.0.0.0` |
-| **Hugging Face Spaces** (optional) | Free | Docker + Streamlit if Community Cloud limits apply |
+**Render (backend):**
 
-#### Configuration (Streamlit Cloud)
+- `CORS_ORIGINS` = `https://<your-project>.vercel.app`
+- `LLM_PROVIDER`, `LLM_API_KEY` for Groq
+- Optional: `PROCESSED_DATA_PATH` if sample data is committed
 
-1. Push project to a **public** GitHub repo (or use Streamlit Teams for private).
-2. **Main file path:** `streamlit_app.py` (at repository root)
-3. **Python version:** 3.10+ (match local venv).
-4. **Secrets** (Streamlit Cloud → Settings → Secrets), mirroring `.env`:
+**Vercel (frontend):**
 
-```toml
-LLM_PROVIDER = "groq"
-LLM_API_KEY = "your-groq-key"
-PROCESSED_DATA_PATH = "data/processed/restaurants.csv"
-SHORTLIST_SIZE = "15"
-DISPLAY_TOP_K = "5"
-```
+- `NEXT_PUBLIC_API_URL` = `https://<your-service>.onrender.com`
+- Optional: `NEXT_PUBLIC_USE_MOCK=true` for demo without CSV on Render
 
-5. For demos without a large dataset, enable **Use mock dataset** in the sidebar or set `LLM_PROVIDER=mock` and ship a small CSV / rely on mock path in `execute_pipeline`.
+#### Operational concerns
 
-#### Data constraints on free tiers
-
-- Full processed CSV (~640 MB) is **too large** for typical Git pushes and slow on cold start.
-- **Recommended for Phase 10:**
-  - Commit a **small sample** `data/processed/restaurants_sample.csv` and set `PROCESSED_DATA_PATH` in secrets, or
-  - Use sidebar **mock data** for public demos, or
-  - Run Phase 1 ingestion in a **one-off build step** (longer deploy; requires Hugging Face access at build time).
-
-#### Deploy steps (Streamlit Community Cloud)
-
-```bash
-# Local smoke test before cloud deploy
-streamlit run src/presentation/web_ui.py
-```
-
-1. Ensure `streamlit` is listed in `requirements.txt`.
-2. Add `.streamlit/config.toml` if custom theme or `headless = true` is needed.
-3. Connect repo on [share.streamlit.io](https://share.streamlit.io).
-4. Set main file to `streamlit_app.py`.
-5. Add secrets; redeploy.
-6. Share the generated `*.streamlit.app` URL.
-
-#### Inputs / outputs
-
-| Input | Output |
-|-------|--------|
-| User form in Streamlit | Rendered recommendation cards (Phase 5 view model) in-browser |
-| Optional `use_mock_data` checkbox | Same pipeline with in-memory sample restaurants |
+- Secrets in platform env only (never committed)
+- Render free tier cold starts (~30–60s after idle)
+- Phase 8 contract tests guard API shape across deploys
+- Health check: `GET /health`
 
 #### Phase exit criteria
 
-- App runs on Streamlit Community Cloud (or equivalent) with a public URL
-- Groq (or mock) recommendations work end-to-end without local `localhost`
-- Secrets are configured only in the host dashboard (not in git)
-- README documents the Streamlit deploy path alongside the Next.js + FastAPI path (Phase 9)
-
-#### Relationship to Phase 9
-
-- **Phase 9** — split **Next.js + FastAPI** production topology.
-- **Phase 10** — **Streamlit-only** shortcut; does not replace Phase 9 but gives a zero-cost, single-service alternative using existing `web_ui.py`.
+- Backend live on Render with `/health` OK
+- Frontend live on Vercel calling Render API
+- CORS configured; recommendations work in browser
+- Deployment documented in `Docs/deployment-render-vercel.md`
 
 ---
 
@@ -774,18 +691,6 @@ Next.js PreferenceForm submit
   -> frontend ResultsPanel render
 ```
 
-**Streamlit all-in-one (Phase 10 deploy path):**
-
-```text
-Streamlit form submit (web_ui.py)
-  -> execute_pipeline(preferences)
-  -> Phase 1 load_restaurants()
-  -> Phase 3 build_shortlist_with_metadata()
-  -> Phase 4 generate_recommendations() [Groq + fallback]
-  -> Phase 5 build_phase5_view_model()
-  -> Streamlit render cards
-```
-
 ---
 
 ## 5. Cross-Cutting Concerns
@@ -809,11 +714,11 @@ Streamlit form submit (web_ui.py)
 | -------- | ------------------------------------------- |
 | Language | Python 3.10+                                |
 | Data     | `pandas`, `datasets` (Hugging Face)         |
-| UI       | Next.js (primary, Phase 7) / Streamlit (legacy, Phase 10) |
-| API      | FastAPI + uvicorn (Phase 6/9)               |
-| Deploy   | Vercel + Render (Phase 9); Streamlit Community Cloud (Phase 10) |
+| UI       | Next.js (Phase 7) — Vercel                    |
+| API      | FastAPI + uvicorn (Phase 6) — Render          |
+| Deploy   | Vercel + Render (Phase 9)                     |
 | LLM      | **Groq** (current), OpenAI, Gemini, Ollama  |
-| Config   | `python-dotenv` / Streamlit secrets         |
+| Config   | `python-dotenv` + platform env vars           |
 
 
 Stack choice is flexible; phases and boundaries stay the same.
@@ -834,8 +739,7 @@ Stack choice is flexible; phases and boundaries stay the same.
 | 6 | Backend architecture consolidation | 5 |
 | 7 | Frontend architecture consolidation (Next.js) | 5, 6 |
 | 8 | Frontend-backend interface contract | 6, 7 |
-| 9 | Deployment architecture (Next.js + FastAPI, env tiers, ops) | 8 |
-| 10 | Streamlit deployment (Community Cloud / free single-service host) | 5, 9 |
+| 9 | Deployment (Render backend + Vercel frontend) | 8 |
 
 
 ---

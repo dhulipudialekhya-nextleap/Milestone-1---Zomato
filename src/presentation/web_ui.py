@@ -1,8 +1,11 @@
 """
-Basic web UI (Streamlit) — primary input surface for user preferences.
+Legacy Streamlit UI (optional, not used for production deploy).
 
-Run from project root:
-    streamlit run streamlit_app.py
+Production UI: Next.js in frontend/ (Vercel).
+Deploy guide: Docs/deployment-render-vercel.md
+
+Local only (requires pip install -r requirements-legacy-ui.txt):
+    streamlit run src/presentation/web_ui.py
 """
 
 from __future__ import annotations
@@ -74,7 +77,7 @@ st.set_page_config(
 )
 
 _inject_ui_styles()
-st.markdown('<span class="app-badge">DineAI • Streamlit</span>', unsafe_allow_html=True)
+st.markdown('<span class="app-badge">DineAI • Legacy UI</span>', unsafe_allow_html=True)
 st.title("Restaurant Recommendations")
 st.markdown(
     '<p class="app-subtitle">Bangalore-first search with cleaner preferences and card-style results.</p>',
@@ -86,7 +89,7 @@ with st.sidebar:
     use_mock_data = st.checkbox(
         "Use mock dataset",
         value=True,
-        help="Recommended on Streamlit Cloud (no large CSV). Uses in-memory sample data.",
+        help="Uses in-memory sample data when processed CSV is unavailable.",
     )
     st.caption("No advanced tuning controls in Streamlit UI.")
 

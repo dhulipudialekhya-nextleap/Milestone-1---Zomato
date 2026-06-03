@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 import uvicorn
 
 from src.config import setup_logging
@@ -10,10 +12,12 @@ setup_logging()
 
 
 def main() -> None:
+    """Run uvicorn; on Render, bind to $PORT (see Docs/deployment-render-vercel.md)."""
+    port = int(os.getenv("PORT", "8000"))
     uvicorn.run(
         "src.backend.phase6.server:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=False,
     )
 
