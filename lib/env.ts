@@ -5,8 +5,18 @@
 
 const DEFAULT_API_URL = "http://localhost:8000";
 
-/** Railway + Vercel: set NEXT_PUBLIC_API_URL in Vercel dashboard (no trailing slash). */
+/**
+ * Production browser calls use same-origin /api/* routes (Vercel proxies to Railway).
+ * Local dev calls Railway/localhost directly unless NEXT_PUBLIC_USE_SAME_ORIGIN_API=true.
+ */
+export function useSameOriginApi(): boolean {
+  if (process.env.NEXT_PUBLIC_USE_SAME_ORIGIN_API === "true") return true;
+  return process.env.NODE_ENV === "production";
+}
+
+/** Client API base: "" in production (proxy), else NEXT_PUBLIC_API_URL or localhost. */
 export function getApiBaseUrl(): string {
+  if (useSameOriginApi()) return "";
   const raw = process.env.NEXT_PUBLIC_API_URL?.trim();
   return (raw || DEFAULT_API_URL).replace(/\/$/, "");
 }
@@ -21,9 +31,14 @@ export function isLocalApi(): boolean {
   return base.includes("localhost") || base.includes("127.0.0.1");
 }
 
-/** True when Vercel prod build has no NEXT_PUBLIC_API_URL (shows setup hint). */
+/** True when Vercel prod has no Railway URL configured for the server proxy. */
 export function isProductionApiMisconfigured(): boolean {
-  return process.env.NODE_ENV === "production" && isLocalApi();
+  if (process.env.NODE_ENV !== "production") return false;
+  if (useSameOriginApi()) {
+    const backend = process.env.NEXT_PUBLIC_API_URL?.trim() ?? "";
+    return !backend || backend.includes("localhost");
+  }
+  return isLocalApi();
 }
 
 /** Allow time for cold starts on hosted API tiers. */
@@ -32,6 +47,9 @@ export const API_REQUEST_TIMEOUT_MS = 90_000;
 export function formatApiErrorHint(): string {
   if (isLocalApi()) {
     return "Is the backend running? Start it with: python -m src.backend.phase6.run_server";
+  }
+  if (useSameOriginApi()) {
+    return "Set BACKEND_API_URL (or NEXT_PUBLIC_API_URL) on Vercel to your Railway URL, then redeploy.";
   }
   return `Check that the API is up at ${getApiBaseUrl()} (hosted backend may take a moment on first request).`;
 }

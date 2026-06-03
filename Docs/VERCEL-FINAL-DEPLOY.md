@@ -16,8 +16,11 @@ Python backend stays in `src/` (Railway only).
 
 | Key | Value |
 |-----|--------|
-| `NEXT_PUBLIC_API_URL` | `https://YOUR-RAILWAY-URL.up.railway.app` |
+| `BACKEND_API_URL` | `https://YOUR-RAILWAY-URL.up.railway.app` |
+| `NEXT_PUBLIC_API_URL` | Same Railway URL (for build-time checks) |
 | `NEXT_PUBLIC_USE_MOCK` | `true` |
+
+Do **not** use your Vercel URL as the API URL — that causes **404** on recommendations.
 
 ## Redeploy
 

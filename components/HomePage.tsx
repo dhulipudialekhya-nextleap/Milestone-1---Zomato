@@ -99,7 +99,8 @@ export function HomePage() {
 
       {isProductionApiMisconfigured() ? (
         <div className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm text-amber-900">
-          Set <strong>NEXT_PUBLIC_API_URL</strong> to your Railway URL in Vercel → Settings →
+          Set <strong>BACKEND_API_URL</strong> (or <strong>NEXT_PUBLIC_API_URL</strong>) to your
+          Railway URL in Vercel → Settings →
           Environment Variables, then redeploy.
         </div>
       ) : null}
