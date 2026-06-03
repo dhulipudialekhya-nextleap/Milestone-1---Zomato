@@ -114,8 +114,8 @@ curl -X POST https://YOUR-SERVICE.up.railway.app/api/recommendations \
 | **Output Directory** | *(leave empty — default)* |
 | **Install Command** | *(leave empty — default)* |
 
-> Repo-root [`vercel.json`](../vercel.json) sets `"rootDirectory": "frontend"`.  
-> If deploy still fails: **Settings → General → Root Directory** must be `frontend` (not blank, not `.`).
+> Set **Root Directory** to `frontend` on the import screen (required).  
+> If you see **“folder already exists”** or **“project already exists”**: use a **new project name** (e.g. `zomato-dineai`) and see §2.5 below.
 
 **Do not** set a custom build command like `pip install` or `cd ..` — that breaks the deploy.
 
@@ -138,6 +138,18 @@ Optional for demo without CSV on Railway:
 1. Open `https://your-project.vercel.app`.
 2. Submit preferences → recommendations load.
 3. If CORS errors: set `CORS_ORIGINS` on Railway to your exact Vercel origin.
+
+### 2.5 “Folder already exists” / “Project already exists” when re-importing
+
+Vercel remembers the old project name or the `frontend` root link. Do this:
+
+1. **Dashboard** → switch **Team** (top-left) → check **every** team for a leftover project with the same repo; delete it.
+2. On the **new import** screen, set **Project Name** to something new, e.g. `zomato-dineai` (not the old name).
+3. **Root Directory** → `frontend` → Deploy.
+4. If it says the **Git repo is already linked**: [Vercel Account Settings → Git](https://vercel.com/account/settings/git) → disconnect/reconnect GitHub, or remove the stale repo link.
+5. Locally, delete a `.vercel` folder if present (do not commit it).
+
+Repo config: only [`frontend/vercel.json`](../frontend/vercel.json) (no root `vercel.json`) so Vercel does not reserve the monorepo path twice.
 
 ### 2.4 Vercel shows “404 Page Not Found”
 
