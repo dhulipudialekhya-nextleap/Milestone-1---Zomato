@@ -100,22 +100,24 @@ curl -X POST https://YOUR-SERVICE.up.railway.app/api/recommendations \
 
 ## Part 2 — Frontend on Vercel
 
-### 2.1 Import project
+### 2.1 Import project (important)
 
 1. [Vercel Dashboard](https://vercel.com) → **Add New** → **Project**.
 2. Import **Milestone-1---Zomato** from GitHub.
-3. Configure:
+3. On the import screen, click **Edit** next to Root Directory and set:
 
 | Setting | Value |
 |---------|--------|
-| **Framework preset** | Next.js |
-| **Root directory** | **`frontend`** |
-| **Build command** | `npm run build` |
+| **Root Directory** | `frontend` |
+| **Framework Preset** | Next.js (auto after root is set) |
+| **Build Command** | *(leave empty — default)* |
+| **Output Directory** | *(leave empty — default)* |
+| **Install Command** | *(leave empty — default)* |
 
-> **No Next.js detected:** set Root Directory to **`frontend`**.  
-> **FastAPI / `src/app.py` error:** backend is on **Railway**, not Vercel — set Root Directory = `frontend`.
+> Repo-root [`vercel.json`](../vercel.json) sets `"rootDirectory": "frontend"`.  
+> If deploy still fails: **Settings → General → Root Directory** must be `frontend` (not blank, not `.`).
 
-Repo-root [`vercel.json`](../vercel.json) includes `"rootDirectory": "frontend"`.
+**Do not** set a custom build command like `pip install` or `cd ..` — that breaks the deploy.
 
 ### 2.2 Environment variables (Vercel)
 
@@ -193,7 +195,8 @@ npm run dev
 | `Failed to fetch` | Wrong `NEXT_PUBLIC_API_URL` | Point to Railway HTTPS URL |
 | Empty recommendations | No CSV + mock off | `NEXT_PUBLIC_USE_MOCK=true` |
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Railway |
-| Build fails on Vercel | Wrong root | Root directory = `frontend` |
+| Build fails on Vercel | Wrong root / custom build cmd | Root Directory = `frontend`; clear Build/Install commands; redeploy |
+| “No Next.js detected” | Deploying repo root | Root Directory = `frontend` |
 | Vercel 404 on homepage | Root Directory not `frontend` | Settings → Root Directory = `frontend`, redeploy |
 | Railway build/deploy fails | Custom build command or heavy Nixpacks deps | Clear **Build** + **Start** commands in Railway UI; redeploy latest `main` (uses `Dockerfile`) |
 | Health check failure | `healthcheckPath` in UI/toml or wrong PORT | Clear **Healthcheck Path** in Railway Settings; leave **Start command** empty; redeploy |
