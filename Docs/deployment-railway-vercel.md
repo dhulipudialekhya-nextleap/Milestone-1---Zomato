@@ -151,18 +151,24 @@ Vercel remembers the old project name or the `frontend` root link. Do this:
 
 Repo config: only [`frontend/vercel.json`](../frontend/vercel.json) (no root `vercel.json`) so Vercel does not reserve the monorepo path twice.
 
-### 2.4 Vercel shows “404 Page Not Found”
+### 2.4 Vercel shows “404 Page Not Found” (deploy “succeeded”)
 
-This means Vercel did **not** deploy the Next.js app in `frontend/`.
+Vercel built the **wrong folder** (repo root / Python), not `frontend/`.
 
-1. Vercel → your project → **Settings** → **General**
-2. **Root Directory** → **Edit** → type `frontend` → **Save**
-3. **Framework Preset** should be **Next.js**
-4. **Build Command** and **Output Directory** → leave **default** (empty)
-5. **Deployments** → latest → **⋯** → **Redeploy**
+1. **Settings** → **General** → **Root Directory** = `frontend` → **Save**
+2. **Settings** → **Build and Deployment**:
+   - **Framework Preset** = **Next.js**
+   - **Build Command** = *(empty)*
+   - **Output Directory** = *(empty)* — if this says `frontend`, `public`, or `.next`, **clear it** (causes 404)
+   - **Install Command** = *(empty)*
+3. **Deployments** → **Redeploy** (disable build cache)
+4. Build logs must show: `┌ ƒ /` and `├ ○ /login`
+5. Test: `https://YOUR-APP.vercel.app/api/health` → `{"status":"ok",...}`
+6. Then open `https://YOUR-APP.vercel.app/` → DineAI form
 
-After redeploy, build logs should list routes like `┌ ƒ /`.  
-Do **not** open your **Railway** URL for the UI — that is the API only. Use the **Vercel** “Visit” link.
+Repo [`vercel.json`](../vercel.json) sets `"rootDirectory": "frontend"`. Pull latest `main` before redeploy.
+
+Do **not** use your **Railway** URL for the UI — API only.
 
 ---
 
