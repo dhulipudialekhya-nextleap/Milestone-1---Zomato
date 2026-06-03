@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi.testclient import TestClient
 
+from src.backend.phase6.deploy import deployment_metadata, get_public_base_url, is_railway_runtime
 from src.backend.phase6.cors import get_cors_settings
 from src.backend.phase6.server import app
 from src.data.loader import _should_skip_auto_ingest
@@ -31,3 +32,14 @@ def test_skip_auto_ingest_when_railway_env(monkeypatch) -> None:
     monkeypatch.setenv("RAILWAY_ENVIRONMENT", "production")
     monkeypatch.delenv("DISABLE_DATA_INGEST", raising=False)
     assert _should_skip_auto_ingest() is True
+
+
+def test_deployment_metadata_on_railway(monkeypatch) -> None:
+    monkeypatch.setenv("RAILWAY_ENVIRONMENT", "production")
+    monkeypatch.setenv("RAILWAY_PUBLIC_DOMAIN", "zomato-api.up.railway.app")
+    monkeypatch.setenv("LLM_PROVIDER", "mock")
+    meta = deployment_metadata()
+    assert meta["platform"] == "railway"
+    assert meta["public_url"] == "https://zomato-api.up.railway.app"
+    assert is_railway_runtime() is True
+    assert get_public_base_url() == "https://zomato-api.up.railway.app"

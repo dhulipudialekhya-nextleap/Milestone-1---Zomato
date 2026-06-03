@@ -12,7 +12,9 @@ client = TestClient(app)
 def test_health_endpoint() -> None:
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+    body = response.json()
+    assert body["status"] == "ok"
+    assert body["platform"] == "local"
 
 
 def test_contract_endpoint() -> None:
@@ -44,7 +46,7 @@ def test_recommendations_success_with_mock_data() -> None:
     response = client.post(
         "/api/recommendations",
         json={
-            "location": "Bangalore",
+            "location": "Koramangala",
             "budget": "medium",
             "cuisine": "Italian",
             "min_rating": 4.0,

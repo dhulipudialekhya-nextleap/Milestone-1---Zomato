@@ -16,7 +16,7 @@ def get_cors_settings() -> tuple[list[str], str | None]:
     Return (allow_origins, allow_origin_regex) for FastAPI CORSMiddleware.
 
     Set CORS_ORIGINS to a comma-separated list of exact origins (no trailing slashes).
-  Example: https://my-app.vercel.app,http://localhost:3000
+    Example: https://my-app.vercel.app,http://localhost:3000
     """
     raw = os.getenv("CORS_ORIGINS", _DEFAULT_ORIGINS)
     origins = [origin.strip() for origin in raw.split(",") if origin.strip()]

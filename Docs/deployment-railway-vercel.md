@@ -51,7 +51,8 @@ The full ~640 MB `restaurants.csv` is **gitignored** and must not be pushed to G
 | **Build command** | `pip install -r requirements.txt` |
 | **Start command** | `uvicorn src.backend.phase6.server:app --host 0.0.0.0 --port $PORT` |
 
-Optional: repo includes [`railway.toml`](../railway.toml) for config-as-code (start command, health check).
+Optional: repo includes [`railway.toml`](../railway.toml) and [`nixpacks.toml`](../nixpacks.toml).  
+Copy variables from [`railway.env.example`](../railway.env.example) into Railway → **Variables**.
 
 4. **Settings → Networking → Generate Domain** to get a public URL like:
    `https://zomato-api-production.up.railway.app`

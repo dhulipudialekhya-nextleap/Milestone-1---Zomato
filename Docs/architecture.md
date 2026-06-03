@@ -622,6 +622,8 @@ flowchart LR
 | File | Purpose |
 |------|---------|
 | [`railway.toml`](../railway.toml) | Railway config (start command, health check) |
+| [`nixpacks.toml`](../nixpacks.toml) | Python 3.12 build for Railway |
+| [`railway.env.example`](../railway.env.example) | Variable template for Railway dashboard |
 | [`Procfile`](../Procfile) | Alternative start command for Railway/Heroku-style hosts |
 | [`vercel.json`](../vercel.json) | Vercel monorepo root (`rootDirectory: frontend`) |
 | [`frontend/vercel.json`](../frontend/vercel.json) | Vercel build hints |

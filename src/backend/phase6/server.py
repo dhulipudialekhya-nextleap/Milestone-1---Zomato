@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.backend.phase6.contracts import BackendRequest, BackendResponse
 from src.backend.phase6.cors import get_cors_settings
+from src.backend.phase6.deploy import deployment_metadata
 from src.backend.phase6.service import run_backend_request
 from src.backend.phase8 import (
     CONTRACT_VERSION,
@@ -51,8 +52,8 @@ def root() -> dict[str, str]:
 
 
 @app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "ok"}
+def health() -> dict:
+    return {"status": "ok", **deployment_metadata()}
 
 
 @app.get("/api/contract")
