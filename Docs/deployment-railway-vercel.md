@@ -114,8 +114,9 @@ curl -X POST https://YOUR-SERVICE.up.railway.app/api/recommendations \
 | **Output Directory** | *(leave empty — default)* |
 | **Install Command** | *(leave empty — default)* |
 
-> Set **Root Directory** to `frontend` on the import screen (required).  
-> If you see **“folder already exists”** or **“project already exists”**: use a **new project name** (e.g. `zomato-dineai`) and see §2.5 below.
+> Set **Root Directory** to `frontend` **only in the Vercel dashboard** (do not duplicate in two places).  
+> If you see **“additional root directory”**: clear Root Directory in **Settings** OR remove repo-root `vercel.json` — use **one** method only (see §2.6).  
+> If you see **“folder already exists”**: use a **new project name** (e.g. `zomato-dineai`) — see §2.5.
 
 **Do not** set a custom build command like `pip install` or `cd ..` — that breaks the deploy.
 
@@ -139,6 +140,17 @@ Optional for demo without CSV on Railway:
 2. Submit preferences → recommendations load.
 3. If CORS errors: set `CORS_ORIGINS` on Railway to your exact Vercel origin.
 
+### 2.6 “Additional root directory” warning
+
+You configured the root directory **twice** (Vercel UI + `vercel.json`). Use **only one**:
+
+| Method | What to do |
+|--------|------------|
+| **A (recommended)** | Vercel **Settings → Root Directory** = `frontend`. Repo has **no** root `vercel.json` (only optional [`frontend/vercel.json`](../frontend/vercel.json)). |
+| **B** | Delete Root Directory in Vercel UI (leave blank). Use repo-root `vercel.json` with `"rootDirectory": "frontend"` only. |
+
+Do **not** set both — Vercel shows “additional root directory” and may 404.
+
 ### 2.5 “Folder already exists” / “Project already exists” when re-importing
 
 Vercel remembers the old project name or the `frontend` root link. Do this:
@@ -149,7 +161,7 @@ Vercel remembers the old project name or the `frontend` root link. Do this:
 4. If it says the **Git repo is already linked**: [Vercel Account Settings → Git](https://vercel.com/account/settings/git) → disconnect/reconnect GitHub, or remove the stale repo link.
 5. Locally, delete a `.vercel` folder if present (do not commit it).
 
-Repo config: only [`frontend/vercel.json`](../frontend/vercel.json) (no root `vercel.json`) so Vercel does not reserve the monorepo path twice.
+Repo config: [`frontend/vercel.json`](../frontend/vercel.json) only — **no** root `vercel.json` (avoids duplicate root directory).
 
 ### 2.4 Vercel shows “404 Page Not Found” (deploy “succeeded”)
 
@@ -166,7 +178,7 @@ Vercel built the **wrong folder** (repo root / Python), not `frontend/`.
 5. Test: `https://YOUR-APP.vercel.app/api/health` → `{"status":"ok",...}`
 6. Then open `https://YOUR-APP.vercel.app/` → DineAI form
 
-Repo [`vercel.json`](../vercel.json) sets `"rootDirectory": "frontend"`. Pull latest `main` before redeploy.
+Set **Root Directory** = `frontend` in Vercel Settings (not in two places). Pull latest `main` before redeploy.
 
 Do **not** use your **Railway** URL for the UI — API only.
 
