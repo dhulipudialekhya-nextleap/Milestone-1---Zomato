@@ -10,6 +10,7 @@ import { PersonalizedPicks } from "@/components/PersonalizedPicks";
 import { PopularSearches } from "@/components/PopularSearches";
 import { PreferenceForm } from "@/components/PreferenceForm";
 import { ApiError, fetchRecommendations } from "@/lib/api";
+import { useMockData } from "@/lib/env";
 import { SAMPLE_PICKS } from "@/lib/samplePicks";
 import {
   DEFAULT_FORM_VALUES,
@@ -31,8 +32,6 @@ export function HomePage() {
   const [status, setStatus] = useState<UiStatus>("idle");
   const [viewModel, setViewModel] = useState<Phase5ViewModel | null>(null);
   const [rawResult, setRawResult] = useState<RecommendationResult | null>(null);
-
-  const useMockData = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
   const mergedExtras = useMemo(() => {
     const parts = [formValues.extras.trim(), ...activeFilters].filter(Boolean);
@@ -68,7 +67,7 @@ export function HomePage() {
     try {
       const response = await fetchRecommendations({
         ...payload,
-        use_mock_data: useMockData,
+        use_mock_data: useMockData(),
       });
 
       if (!response.ok) {
@@ -84,7 +83,7 @@ export function HomePage() {
     } catch (error) {
       const message =
         error instanceof ApiError
-          ? `${error.message}. Is the backend API running on port 8000?`
+          ? error.message
           : "Something went wrong while fetching recommendations.";
       setFieldErrors({ form: message });
       setStatus("error");
