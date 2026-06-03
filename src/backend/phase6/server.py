@@ -10,7 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.backend.phase6.contracts import BackendRequest, BackendResponse
 from src.backend.phase6.cors import get_cors_settings
 from src.backend.phase6.deploy import deployment_metadata
-from src.backend.phase6.service import run_backend_request
 from src.backend.phase8 import (
     CONTRACT_VERSION,
     ApiRecommendationsRequest,
@@ -64,6 +63,8 @@ def api_contract() -> dict:
 
 @app.post("/api/recommendations", response_model=BackendResponse)
 def create_recommendations(payload: ApiRecommendationsRequest) -> BackendResponse:
+    from src.backend.phase6.service import run_backend_request
+
     return run_backend_request(
         BackendRequest(
             location=payload.location,

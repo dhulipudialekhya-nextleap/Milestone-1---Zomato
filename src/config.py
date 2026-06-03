@@ -122,16 +122,16 @@ def load_settings() -> Settings:
         display_top_k = shortlist_size
 
     processed_path = Path(_get_env("PROCESSED_DATA_PATH", "data/processed/restaurants.csv") or "")
+    default_dataset = (
+        "https://huggingface.co/datasets/ManikaSaini/zomato-restaurant-recommendation"
+    )
+    dataset_source = _get_env("DATASET_SOURCE", default_dataset) or default_dataset
 
-    settings = Settings(
+    return Settings(
         schema_version=_parse_int("SCHEMA_VERSION", _get_env("SCHEMA_VERSION"), 1, minimum=1),
         log_level=_parse_log_level(_get_env("LOG_LEVEL")),
         processed_data_path=processed_path,
-        dataset_source=_get_env(
-            "DATASET_SOURCE",
-            "https://huggingface.co/datasets/ManikaSaini/zomato-restaurant-recommendation",
-        )
-        or "",
+        dataset_source=dataset_source,
         shortlist_size=shortlist_size,
         display_top_k=display_top_k,
         llm_provider=_parse_llm_provider(_get_env("LLM_PROVIDER")),
@@ -140,11 +140,6 @@ def load_settings() -> Settings:
         budget_low_max=budget_low,
         budget_medium_max=budget_medium,
     )
-
-    if not settings.dataset_source:
-        raise ConfigError("DATASET_SOURCE must not be empty")
-
-    return settings
 
 
 def setup_logging(level: LogLevel | None = None) -> None:

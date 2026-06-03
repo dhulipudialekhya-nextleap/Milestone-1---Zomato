@@ -182,6 +182,7 @@ npm run dev
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Railway |
 | Build fails on Vercel | Wrong root | Root directory = `frontend` |
 | Railway build/deploy fails | Custom build command or heavy Nixpacks deps | Clear **Build** + **Start** commands in Railway UI; redeploy latest `main` (uses `Dockerfile`) |
+| Health check failure | `healthcheckPath` in UI/toml or wrong PORT | Clear **Healthcheck Path** in Railway Settings; leave **Start command** empty; redeploy |
 
 ---
 

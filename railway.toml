@@ -1,12 +1,11 @@
-# Railway — Docker build (reliable; see Dockerfile)
-# Docs: Docs/deployment-railway-vercel.md
+# Railway — Docker deploy (see Docs/deployment-railway-vercel.md)
+# No healthcheckPath here — avoids false "health check failure" during cold start.
+# Verify manually: https://YOUR-SERVICE.up.railway.app/health
 
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-healthcheckPath = "/health"
-healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3

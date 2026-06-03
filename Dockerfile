@@ -1,4 +1,4 @@
-# Railway production image — slim API (mock data; no pandas/HF at runtime)
+# Railway production — reads PORT in Python (no shell $PORT expansion issues)
 FROM python:3.12-slim-bookworm
 
 WORKDIR /app
@@ -13,6 +13,5 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 COPY src ./src
 
-EXPOSE 8000
-
-CMD ["sh", "-c", "python -m uvicorn src.backend.phase6.server:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Railway injects PORT at runtime; run_server.py binds to os.environ["PORT"]
+CMD ["python", "-m", "src.backend.phase6.run_server"]
