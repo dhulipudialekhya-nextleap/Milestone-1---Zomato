@@ -18,7 +18,15 @@ describe("env", () => {
   });
 
   it("reads mock flag from NEXT_PUBLIC_USE_MOCK", () => {
+    vi.stubEnv("NODE_ENV", "development");
     vi.stubEnv("NEXT_PUBLIC_USE_MOCK", "true");
+    expect(useMockData()).toBe(true);
+    vi.unstubAllEnvs();
+  });
+
+  it("defaults mock on in production", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PUBLIC_USE_MOCK", "");
     expect(useMockData()).toBe(true);
     vi.unstubAllEnvs();
   });

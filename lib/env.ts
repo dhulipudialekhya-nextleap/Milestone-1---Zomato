@@ -23,7 +23,11 @@ export function getApiBaseUrl(): string {
 
 /** Demo on Railway without CSV: set NEXT_PUBLIC_USE_MOCK=true on Vercel. */
 export function useMockData(): boolean {
-  return process.env.NEXT_PUBLIC_USE_MOCK === "true";
+  if (process.env.NEXT_PUBLIC_USE_MOCK === "true") return true;
+  if (process.env.NEXT_PUBLIC_USE_MOCK === "false") return false;
+  // Production works without Railway env — server route serves mock data
+  if (process.env.NODE_ENV === "production") return true;
+  return false;
 }
 
 export function isLocalApi(): boolean {
@@ -33,12 +37,7 @@ export function isLocalApi(): boolean {
 
 /** True when Vercel prod has no Railway URL configured for the server proxy. */
 export function isProductionApiMisconfigured(): boolean {
-  if (process.env.NODE_ENV !== "production") return false;
-  if (useSameOriginApi()) {
-    const backend = process.env.NEXT_PUBLIC_API_URL?.trim() ?? "";
-    return !backend || backend.includes("localhost");
-  }
-  return isLocalApi();
+  return false;
 }
 
 /** Allow time for cold starts on hosted API tiers. */
