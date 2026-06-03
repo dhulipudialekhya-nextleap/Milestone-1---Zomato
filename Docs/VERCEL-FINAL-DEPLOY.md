@@ -27,10 +27,10 @@ One guide to get the **public website** working end-to-end.
 
 | Setting | Value |
 |---------|--------|
-| **Root Directory** | `frontend` |
-| **Node.js Version** | 20.x |
+| **Root Directory** | *(leave empty in UI)* — repo [`vercel.json`](../vercel.json) sets `"rootDirectory": "frontend"` |
 
-> **No** repo-root `vercel.json` in this project — do not add a second root directory anywhere.
+> If you see **“additional root directory”**: clear Root Directory in Vercel UI (empty) and redeploy; config file handles it.  
+> If you see **“Couldn't find any pages or app directory”**: Root Directory was not applied — pull latest `main` and redeploy.
 
 ### 3. Build and Deployment
 
@@ -96,7 +96,8 @@ After deploy:
 | Problem | Fix |
 |---------|-----|
 | 404 on homepage | Root Directory = `frontend`; Output Directory empty; redeploy |
-| “Additional root directory” | Set Root Directory **only** in Vercel UI (not in `vercel.json`) |
+| “Additional root directory” | Clear Root Directory in Vercel UI (empty); use repo `vercel.json` only |
+| “Couldn't find pages or app directory” | Pull latest `main`; `vercel.json` sets `rootDirectory: frontend` |
 | “Folder already exists” | New project name e.g. `zomato-dineai` |
 | Amber banner on site | Add `NEXT_PUBLIC_API_URL` on Vercel, redeploy |
 | Failed to fetch | Railway URL in `NEXT_PUBLIC_API_URL`; Railway `/health` works |
