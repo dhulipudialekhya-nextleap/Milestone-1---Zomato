@@ -1,31 +1,5 @@
-# DineAI Frontend (Next.js)
+# Frontend moved to repository root
 
-Deployed on **Vercel**. Talks to the FastAPI backend on **Railway**.
+The Next.js app now lives at the **repo root** (`app/`, `components/`, `lib/`) so Vercel builds without a Root Directory setting.
 
-## Local dev
-
-```bash
-npm install
-copy .env.example .env.local
-npm run dev
-```
-
-Set `NEXT_PUBLIC_API_URL=http://localhost:8000` and run the backend from the repo root.
-
-## Vercel deploy
-
-| Setting | Value |
-|---------|--------|
-| Root Directory | **`frontend`** (required) |
-| Node.js | **20.x** |
-| Framework | Next.js |
-| Build / Install / Output | all empty (uses `frontend/vercel.json`) |
-
-**Environment variables:**
-
-| Key | Value |
-|-----|--------|
-| `NEXT_PUBLIC_API_URL` | `https://YOUR-SERVICE.up.railway.app` |
-| `NEXT_PUBLIC_USE_MOCK` | `true` (recommended for demo) |
-
-Full guide: [Docs/deployment-railway-vercel.md](../Docs/deployment-railway-vercel.md)
+Deploy on Vercel from the repository root. See [Docs/VERCEL-FINAL-DEPLOY.md](../Docs/VERCEL-FINAL-DEPLOY.md).

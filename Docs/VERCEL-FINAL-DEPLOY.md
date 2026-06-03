@@ -1,15 +1,16 @@
 # Final deploy: live website (Railway + Vercel)
 
-## Vercel settings (copy exactly)
+The Next.js app is at the **repository root** (`app/`, `components/`, `lib/`).  
+Python backend stays in `src/` (Railway only).
+
+## Vercel settings
 
 | Setting | Value |
 |---------|--------|
-| **Root Directory** | `frontend` |
-| **Node.js Version** | `20.x` |
+| **Root Directory** | *(empty — repo root)* |
+| **Node.js** | `20.x` |
 | **Framework** | Next.js |
-| **Build Command** | *(empty — uses `frontend/vercel.json`)* |
-| **Install Command** | *(empty)* |
-| **Output Directory** | *(empty)* |
+| **Build / Install / Output** | *(all empty)* |
 
 ## Environment variables
 
@@ -20,18 +21,16 @@
 
 ## Redeploy
 
-Deployments → Redeploy → disable build cache → Ready.
+Deployments → Redeploy (cache off) → **Ready**.
 
 ## Verify
 
-- `https://YOUR-APP.vercel.app/api/health` → JSON ok
+- `https://YOUR-APP.vercel.app/api/health`
 - `https://YOUR-APP.vercel.app/` → DineAI form
 
 ## Errors
 
 | Error | Fix |
 |-------|-----|
-| No Next.js detected | Root Directory = `frontend` |
-| npm run build exited 1 | Root Directory = `frontend`; redeploy latest `main` |
-| Couldn't find app directory | Root Directory = `frontend` |
-| Invalid rootDirectory | Never in `vercel.json` at repo root |
+| Couldn't find `app` directory | Pull latest `main`; Root Directory must be **empty** |
+| No Next.js detected | `package.json` at repo root must include `next` |

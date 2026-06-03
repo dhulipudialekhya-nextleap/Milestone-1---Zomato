@@ -9,7 +9,7 @@ import {
 } from "./contract";
 import { DEFAULT_FORM_VALUES } from "./types";
 
-const fixturesDir = join(process.cwd(), "..", "contracts", "v1", "fixtures");
+const fixturesDir = join(process.cwd(), "contracts", "v1", "fixtures");
 
 function loadFixture<T>(name: string): T {
   return JSON.parse(

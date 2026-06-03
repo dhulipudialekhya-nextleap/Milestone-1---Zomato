@@ -4,7 +4,7 @@ Production stack for this project:
 
 | Service | Platform | Code |
 |---------|----------|------|
-| **Frontend** | [Vercel](https://vercel.com) | `frontend/` (Next.js 14) |
+| **Frontend** | [Vercel](https://vercel.com) | Repo root — `app/`, `components/`, `lib/` (Next.js 14) |
 | **Backend API** | [Railway](https://railway.com) | `src/backend/phase6/` (FastAPI) |
 | **LLM** | Groq (external) | API key on Railway only |
 
@@ -104,18 +104,18 @@ curl -X POST https://YOUR-SERVICE.up.railway.app/api/recommendations \
 
 1. [Vercel Dashboard](https://vercel.com) → **Add New** → **Project**.
 2. Import **Milestone-1---Zomato** from GitHub.
-3. On the import screen, click **Edit** next to Root Directory and set:
+3. On the import screen:
 
 | Setting | Value |
 |---------|--------|
-| **Root Directory** | `frontend` |
-| **Framework Preset** | Next.js (auto after root is set) |
+| **Root Directory** | *(empty — repository root)* |
+| **Framework Preset** | Next.js |
 | **Build Command** | *(leave empty — default)* |
 | **Output Directory** | *(leave empty — default)* |
 | **Install Command** | *(leave empty — default)* |
 
-> Set **Root Directory** to `frontend` **only in the Vercel dashboard** (do not duplicate in two places).  
-> If you see **“additional root directory”**: clear Root Directory in **Settings** OR remove repo-root `vercel.json` — use **one** method only (see §2.6).  
+> The Next.js app lives at the **repo root** (`app/`, `package.json`). Do **not** set Root Directory to `frontend` (that folder is only a README stub).  
+> If you see **“Couldn't find app directory”**: Root Directory must be empty and you must deploy latest `main`.  
 > If you see **“folder already exists”**: use a **new project name** (e.g. `zomato-dineai`) — see §2.5.
 
 **Do not** set a custom build command like `pip install` or `cd ..` — that breaks the deploy.
@@ -146,10 +146,9 @@ You configured the root directory **twice** (Vercel UI + `vercel.json`). Use **o
 
 | Method | What to do |
 |--------|------------|
-| **A (recommended)** | Vercel **Settings → Root Directory** = `frontend`. Repo has **no** root `vercel.json` (only optional [`frontend/vercel.json`](../frontend/vercel.json)). |
-| **B** | Delete Root Directory in Vercel UI (leave blank). Use repo-root `vercel.json` with `"rootDirectory": "frontend"` only. |
+| **Correct** | Vercel **Settings → Root Directory** = *(empty)*. Optional [`vercel.json`](../vercel.json) at repo root (`installCommand` / `buildCommand` only — **no** `rootDirectory` key). |
 
-Do **not** set both — Vercel shows “additional root directory” and may 404.
+Do **not** set Root Directory to `frontend` — that path no longer contains the Next.js app.
 
 ### 2.5 “Folder already exists” / “Project already exists” when re-importing
 
@@ -157,17 +156,23 @@ Vercel remembers the old project name or the `frontend` root link. Do this:
 
 1. **Dashboard** → switch **Team** (top-left) → check **every** team for a leftover project with the same repo; delete it.
 2. On the **new import** screen, set **Project Name** to something new, e.g. `zomato-dineai` (not the old name).
-3. **Root Directory** → `frontend` → Deploy.
+3. **Root Directory** → *(empty)* → Deploy.
 4. If it says the **Git repo is already linked**: [Vercel Account Settings → Git](https://vercel.com/account/settings/git) → disconnect/reconnect GitHub, or remove the stale repo link.
 5. Locally, delete a `.vercel` folder if present (do not commit it).
 
-Repo config: [`frontend/vercel.json`](../frontend/vercel.json) only — **no** root `vercel.json` (avoids duplicate root directory).
+Repo config: [`vercel.json`](../vercel.json) at repository root (optional build hints).
 
-### 2.4 Vercel shows “404 Page Not Found” (deploy “succeeded”)
+### 2.4 Vercel build fails or shows 404
 
-Vercel built the **wrong folder** (repo root / Python), not `frontend/`.
+**Build error: “Couldn't find any pages or app directory”** — Vercel is building an old layout or Root Directory is wrong.
 
-1. **Settings** → **General** → **Root Directory** = `frontend` → **Save**
+1. Pull latest `main` (Next.js at repo root).
+2. **Settings** → **General** → **Root Directory** = *(empty)* → **Save**
+3. **Redeploy** (disable build cache).
+
+**404 after “successful” deploy** — often wrong Output Directory or old project settings:
+
+1. **Settings** → **General** → **Root Directory** = *(empty)* → **Save**
 2. **Settings** → **Build and Deployment**:
    - **Framework Preset** = **Next.js**
    - **Build Command** = *(empty)*

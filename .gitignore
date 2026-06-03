@@ -29,9 +29,10 @@ data/processed/
 *.log
 logs/
 
-# Node / Next.js frontend
-frontend/node_modules/
-frontend/.next/
-frontend/.env.local
-frontend/tsconfig.tsbuildinfo
+# Node / Next.js (repo root — Vercel)
+node_modules/
+.next/
+.env.local
+tsconfig.tsbuildinfo
+frontend/
 .vercel/

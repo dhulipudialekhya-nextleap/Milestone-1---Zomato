@@ -11,14 +11,16 @@ AI-powered restaurant recommendations combining structured Zomato data with LLM 
 - Phase 4: Groq-backed LLM layer in separate folder
 - Phase 5: presentation view model + renderer in separate folder
 - Phase 6: backend service boundary + contracts in separate folder
-- Phase 7: Next.js frontend in `frontend/` consuming backend API
+- Phase 7: Next.js frontend at repo root (`app/`, `components/`, `lib/`) consuming backend API
 - Phase 8: Frontend-backend API contract (`GET /api/contract`, shared fixtures, regression tests)
 - Phase 9: Production deploy — **Vercel** (frontend) + **Railway** (backend) — see [Docs/deployment-railway-vercel.md](Docs/deployment-railway-vercel.md)
 
 ### Project structure
 
 ```
-frontend/                  # Phase 7 — Next.js App Router UI
+app/                       # Phase 7 — Next.js App Router pages
+components/                # React UI components
+lib/                       # API client, contract, view model
 src/
 ├── phases/                # Phase-wise namespace (phase0 ... phase7)
 ├── config.py              # Environment config & validation
@@ -79,10 +81,9 @@ python -m src.data.phase1.run_ingestion
 python -m src.backend.phase6.run_server
 ```
 
-**Terminal 2 — frontend:**
+**Terminal 2 — frontend (repo root):**
 
 ```bash
-cd frontend
 copy .env.example .env.local
 npm install
 npm run dev
@@ -119,7 +120,7 @@ pytest
 | `DISPLAY_TOP_K` | `5` | Results shown in UI |
 | `CORS_ORIGINS` | `http://localhost:3000,...` | Allowed origins for backend API |
 
-Frontend env (`frontend/.env.local`):
+Frontend env (`.env.local` at repo root):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
@@ -132,7 +133,7 @@ See [.env.example](.env.example) for all options.
 - Document: [Docs/phase8-api-contract.md](Docs/phase8-api-contract.md)
 - Live manifest: `GET http://localhost:8000/api/contract` (with backend running)
 - Export JSON schemas: `python -m src.backend.phase8.export`
-- Tests: `pytest tests/phase8 -q` and `cd frontend && npm run test -- src/lib/contract.test.ts`
+- Tests: `pytest tests/phase8 -q` and `npm run test` (Vitest in `lib/`)
 
 ### Documentation
 
