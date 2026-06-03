@@ -67,7 +67,14 @@ export function PopularSearches({
               <img
                 src={category.image}
                 alt={category.label}
+                loading="lazy"
                 className="h-full w-full object-cover transition duration-500 hover:scale-105"
+                onError={(event) => {
+                  const img = event.currentTarget;
+                  if (img.dataset.fallbackApplied) return;
+                  img.dataset.fallbackApplied = "1";
+                  img.src = STITCH_IMAGES.sweets;
+                }}
               />
             </div>
             <span className="text-center text-[10px] font-bold uppercase tracking-tighter text-ink-muted">

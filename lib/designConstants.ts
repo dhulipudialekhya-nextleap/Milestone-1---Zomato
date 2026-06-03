@@ -66,8 +66,8 @@ export const STITCH_IMAGES = {
     "https://lh3.googleusercontent.com/aida-public/AB6AXuA8xhprjkNS6Du8NhVtqYN5aI6dXLd7nydf6Hfsg6SH5Fz2iRjNrE-JT0A3ehDOIUXlarmhgzIJeSJ2v-fhDGBASTFUqOkKPPOcgHY0wP5YBUiicVJ-sBL26qk3AOUbZGeA6uqJf0TCvw3SaP9xPkFitVCC9D8fmLSd6OYdThgG8LO98swJdNKlhK3o17THmZwZIbQMVjsrLfZUbKX9T85GanoSV9DkfYeM23ttItIXK3elvs5R5aBtVDPCYhMuW6E1CLtD7rna9j0",
   waffles:
     "https://lh3.googleusercontent.com/aida-public/AB6AXuDvwsV4_3PbO3L_K_tZL14FdjMvIVXK5PaQAVACoDP7umcj1fLy-05hA4WspThMhcbi48va9-7y7HAa9lvBA-eoeUZi7jIM4fsBwwEKxQBzn64ho3ipfDVE8hKsJLqkla_cPEGZrPp-lAUhBuDI_8y44BT5GP-hYzF49BRdaZc4CHRCyG0537fVEFbhlDeKywRFvMCLAKB8n6Vev94gVaQt998qh9O-w_FXvHD0C_h3Kgp0cqTlB_GTb3r8ePL-BMePeccu89dH-F0",
-  cakes:
-    "https://lh3.googleusercontent.com/aida/ADBb0ugsDo9QCgjwJvymuql8g_UJsJMtAsJHBEGVK1qCzNRb2N5KyF4RcMnseU5FtOQd6421oqaRNXiTkjrqT4D987owjuV7tIOxUTbBFMVNjJ9xMnC0-mmKDprlBqmDOsG4uT5k7tPRK7-7z9w6B-wt8Q9AE59oZYZPN0ALQt1BNje_yO21CqkvkJ2F6oxws6YOEirHjOYWSNz3c6XfnhEvR1t5P-NLjK5TAoZOtVbChLTnPSAN_67a2As25jI",
+  /** Hosted locally — Google aida (non-public) URL returned 403 on Vercel */
+  cakes: "/images/popular/cakes.jpg",
   butterChicken:
     "https://lh3.googleusercontent.com/aida-public/AB6AXuAswIeEiifJWA0-o6hCQuoPc-SepH8hLb--gXLtmtMcHZfPCusevZujyrmGbK9KfCM_WDTP0c4OHv_88cLJikhpyl7Fvmc4MycE9VSoM6scFplG2SP7wyoAFTgpO1Oy3eruI-h7kZqF8euA2evAt0LhZvm9cd89YfvoVluwJmTjIUnvdFoKgFCyfP1Q7CoA6pNpiUybohkGSfGKgpS7L_tlddFRcbpb8J5oY4R6EHmIacsmcI5Y2QGyaq6Cl6W7QNS4EOmw8LItnoc",
   masalaDosa:
