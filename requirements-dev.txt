@@ -1,3 +1,5 @@
-# Dev / CI only — not installed on Railway (see requirements.txt)
+# Local dev + tests (includes Phase 1 data ingest)
 -r requirements.txt
+pandas>=2.0.0
+datasets>=2.14.0
 pytest>=7.4.0

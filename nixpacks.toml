@@ -1,5 +1,0 @@
-# Nixpacks — let Railway auto-install Python, then requirements.txt
-# https://nixpacks.com/docs/configuration/file
-
-[variables]
-NIXPACKS_PYTHON_VERSION = "3.12"

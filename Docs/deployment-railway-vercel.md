@@ -48,10 +48,11 @@ The full ~640 MB `restaurants.csv` is **gitignored** and must not be pushed to G
 | Setting | Value |
 |---------|--------|
 | **Root directory** | *(repo root)* |
-| **Build command** | *(leave empty — Nixpacks auto-detects `requirements.txt`)* |
-| **Start command** | `python -m uvicorn src.backend.phase6.server:app --host 0.0.0.0 --port $PORT` |
+| **Builder** | Dockerfile (auto from repo) |
+| **Build command** | *(leave empty)* |
+| **Start command** | *(leave empty — uses Dockerfile `CMD`)* |
 
-Optional: repo includes [`railway.toml`](../railway.toml) and [`nixpacks.toml`](../nixpacks.toml).  
+Repo includes [`railway.toml`](../railway.toml) + [`Dockerfile`](../Dockerfile) (Docker build — no custom pip command).  
 Copy variables from [`railway.env.example`](../railway.env.example) into Railway → **Variables**.
 
 4. **Settings → Networking → Generate Domain** to get a public URL like:
@@ -180,7 +181,7 @@ npm run dev
 | Empty recommendations | No CSV + mock off | `NEXT_PUBLIC_USE_MOCK=true` |
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Railway |
 | Build fails on Vercel | Wrong root | Root directory = `frontend` |
-| Railway build fails (`pip: command not found`) | Custom build command before Python install | Clear **Build Command** in Railway; use repo `railway.toml` / `nixpacks.toml` only |
+| Railway build/deploy fails | Custom build command or heavy Nixpacks deps | Clear **Build** + **Start** commands in Railway UI; redeploy latest `main` (uses `Dockerfile`) |
 
 ---
 
