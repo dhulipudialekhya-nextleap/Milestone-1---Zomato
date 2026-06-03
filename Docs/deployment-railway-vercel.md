@@ -137,6 +137,19 @@ Optional for demo without CSV on Railway:
 2. Submit preferences → recommendations load.
 3. If CORS errors: set `CORS_ORIGINS` on Railway to your exact Vercel origin.
 
+### 2.4 Vercel shows “404 Page Not Found”
+
+This means Vercel did **not** deploy the Next.js app in `frontend/`.
+
+1. Vercel → your project → **Settings** → **General**
+2. **Root Directory** → **Edit** → type `frontend` → **Save**
+3. **Framework Preset** should be **Next.js**
+4. **Build Command** and **Output Directory** → leave **default** (empty)
+5. **Deployments** → latest → **⋯** → **Redeploy**
+
+After redeploy, build logs should list routes like `┌ ƒ /`.  
+Do **not** open your **Railway** URL for the UI — that is the API only. Use the **Vercel** “Visit” link.
+
 ---
 
 ## Part 3 — Deploy order (checklist)
@@ -181,6 +194,7 @@ npm run dev
 | Empty recommendations | No CSV + mock off | `NEXT_PUBLIC_USE_MOCK=true` |
 | Groq errors | Missing/invalid key | Set `LLM_API_KEY` on Railway |
 | Build fails on Vercel | Wrong root | Root directory = `frontend` |
+| Vercel 404 on homepage | Root Directory not `frontend` | Settings → Root Directory = `frontend`, redeploy |
 | Railway build/deploy fails | Custom build command or heavy Nixpacks deps | Clear **Build** + **Start** commands in Railway UI; redeploy latest `main` (uses `Dockerfile`) |
 | Health check failure | `healthcheckPath` in UI/toml or wrong PORT | Clear **Healthcheck Path** in Railway Settings; leave **Start command** empty; redeploy |
 
