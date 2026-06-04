@@ -26,6 +26,13 @@ Do **not** use your Vercel URL as the API URL — that causes **404** on recomme
 
 Deployments → Redeploy (cache off) → **Ready**.
 
+## Make the site public (required for sharing)
+
+If others see a **Vercel login** page → **[VERCEL-PUBLIC-ACCESS.md](./VERCEL-PUBLIC-ACCESS.md)**  
+**Settings → Deployment Protection → Vercel Authentication → Off** (or “Only Preview Deployments”).
+
+Share your **Production** domain from **Settings → Domains**, not a long `-*-username.vercel.app` preview URL.
+
 ## Verify
 
 - `https://YOUR-APP.vercel.app/api/health`
